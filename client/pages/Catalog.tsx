@@ -29,7 +29,12 @@ const sortOptions = [
 
 export default function Catalog() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState(() => {
+    // Get category from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryParam = urlParams.get('category');
+    return categoryParam && categories.includes(categoryParam) ? categoryParam : 'All';
+  });
   const [sortBy, setSortBy] = useState('featured');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
