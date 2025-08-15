@@ -43,10 +43,52 @@ const getVariantButtonStyle = (isSelected: boolean) => {
   }`;
 };
 
-export default function CatalogProductGrid() {
+export default function CatalogProductGrid({ selectedCategory = 'All', products }: CatalogProductGridProps) {
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({});
   const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<CatalogProduct | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [displayProducts, setDisplayProducts] = useState<Product[]>([]);
+
+  // Fetch or filter products based on category
+  useEffect(() => {
+    const fetchProducts = async () => {
+      if (products) {
+        // Use passed products
+        setDisplayProducts(products);
+      } else {
+        // Fetch from API or use local data
+        try {
+          const params = new URLSearchParams();
+          if (selectedCategory !== 'All') {
+            params.append('category', selectedCategory);
+          }
+
+          const response = await fetch(`/api/products?${params.toString()}`);
+          if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+              setDisplayProducts(data.products);
+            }
+          } else {
+            // Fallback to filtered local data
+            const filtered = selectedCategory === 'All'
+              ? sampleProducts
+              : sampleProducts.filter(p => p.category === selectedCategory);
+            setDisplayProducts(filtered);
+          }
+        } catch (error) {
+          console.error('Error fetching products:', error);
+          // Fallback to filtered local data
+          const filtered = selectedCategory === 'All'
+            ? sampleProducts
+            : sampleProducts.filter(p => p.category === selectedCategory);
+          setDisplayProducts(filtered);
+        }
+      }
+    };
+
+    fetchProducts();
+  }, [selectedCategory, products]);
 
   const handleVariantSelect = (productId: string, variantType: string, variant: string) => {
     setSelectedVariants(prev => ({
