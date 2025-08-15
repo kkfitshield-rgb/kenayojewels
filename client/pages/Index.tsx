@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Award, Users, Gem, Shield, Truck, Clock, Settings, HeadphonesIcon } from 'lucide-react';
 import SlideBackground from '@/components/SlideBackground';
 import HorizontalCategoriesCarousel from '@/components/HorizontalCategoriesCarousel';
+import ApiTest from '@/components/ApiTest';
 import { jewelryCategories } from '@shared/categories';
 import { sampleProducts } from '@shared/products';
 
