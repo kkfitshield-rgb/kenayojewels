@@ -135,9 +135,6 @@ export default function InquiryModal({
               <div className="flex-1">
                 <h4 className="font-semibold text-foreground">{product.name}</h4>
                 <p className="text-sm text-muted-foreground mb-2">{product.category}</p>
-                <p className="text-lg font-bold text-primary">
-                  Starting at ${product.lowestPrice.toLocaleString()}
-                </p>
                 {Object.keys(selectedVariants).length > 0 && (
                   <div className="mt-2">
                     <p className="text-xs font-medium text-muted-foreground mb-1">Selected Options:</p>
