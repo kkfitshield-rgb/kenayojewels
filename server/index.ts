@@ -10,6 +10,7 @@ import {
   handleGetProductsByCategory,
   handleGetProduct
 } from "./routes/products";
+import { handleEmailTest } from "./routes/emailTest";
 
 export function createServer() {
   const app = express();
