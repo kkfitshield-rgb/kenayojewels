@@ -1,4 +1,5 @@
 import "./global.css";
+import { suppressResizeObserverError } from "./utils/suppressResizeObserverError";
 
 import { Toaster } from "@/components/ui/toaster";
 import { createRoot } from "react-dom/client";
@@ -16,12 +17,13 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// Suppress ResizeObserver errors on app initialization
+suppressResizeObserverError();
+
 const Layout = ({ children }: { children: React.ReactNode }) => (
   <div className="min-h-screen bg-background flex flex-col">
     <Header />
-    <main className="flex-1">
-      {children}
-    </main>
+    <main className="flex-1">{children}</main>
     <Footer />
   </div>
 );
@@ -33,31 +35,46 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={
-            <Layout>
-              <Index />
-            </Layout>
-          } />
-          <Route path="/catalog" element={
-            <Layout>
-              <Catalog />
-            </Layout>
-          } />
-          <Route path="/about" element={
-            <Layout>
-              <About />
-            </Layout>
-          } />
-          <Route path="/contact" element={
-            <Layout>
-              <Contact />
-            </Layout>
-          } />
-          <Route path="*" element={
-            <Layout>
-              <NotFound />
-            </Layout>
-          } />
+          <Route
+            path="/"
+            element={
+              <Layout>
+                <Index />
+              </Layout>
+            }
+          />
+          <Route
+            path="/catalog"
+            element={
+              <Layout>
+                <Catalog />
+              </Layout>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <Layout>
+                <About />
+              </Layout>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <Layout>
+                <Contact />
+              </Layout>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <Layout>
+                <NotFound />
+              </Layout>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

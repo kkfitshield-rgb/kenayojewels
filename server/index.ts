@@ -4,6 +4,13 @@ import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { handleInquiry } from "./routes/inquiry";
 import { handlePlaceholder } from "./routes/placeholder";
+import {
+  handleGetCategories,
+  handleGetProducts,
+  handleGetProductsByCategory,
+  handleGetProduct,
+} from "./routes/products";
+import { handleEmailTest } from "./routes/emailTest";
 
 export function createServer() {
   const app = express();
@@ -22,6 +29,15 @@ export function createServer() {
   app.get("/api/demo", handleDemo);
   app.post("/api/inquiry", handleInquiry);
   app.get("/api/placeholder/:width/:height", handlePlaceholder);
+
+  // Product and category routes
+  app.get("/api/categories", handleGetCategories);
+  app.get("/api/products", handleGetProducts);
+  app.get("/api/products/category/:categoryId", handleGetProductsByCategory);
+  app.get("/api/products/:productId", handleGetProduct);
+
+  // Email test route (for development)
+  app.get("/api/email-test", handleEmailTest);
 
   return app;
 }

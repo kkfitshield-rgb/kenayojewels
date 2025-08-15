@@ -1,25 +1,71 @@
-import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
-import { Award, Users, Gem, Shield, Truck, Clock, Settings, HeadphonesIcon } from 'lucide-react';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import {
+  Award,
+  Users,
+  Gem,
+  Shield,
+  Truck,
+  Clock,
+  Settings,
+  HeadphonesIcon,
+} from "lucide-react";
+import SlideBackground from "@/components/SlideBackground";
+import HorizontalCategoriesCarousel from "@/components/HorizontalCategoriesCarousel";
+import InquiryModal from "@/components/InquiryModal";
+import { jewelryCategories } from "@shared/categories";
+import { sampleProducts, Product } from "@shared/products";
 
 export default function Index() {
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedVariants, setSelectedVariants] = useState<
+    Record<string, string>
+  >({});
+  const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
+
+  const heroImages = [
+    "https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2Ff0e262b72a0d40d6a1baf04548adaf09",
+    "https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2F2551d50fb85645a9a4d6f150775f8628?format=webp&width=800",
+    "https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2Fb05a327fbe534d37a625c38cc77b8902?format=webp&width=800",
+    "https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2F3a110020445f451495ffaf0e7209a7b9?format=webp&width=800",
+  ];
+
+  // Use shared categories data
+  const categories = jewelryCategories.map((cat) => ({
+    name: cat.name,
+    imageUrl: cat.imageUrl,
+    designCount: cat.designCount,
+  }));
+
+  // Get featured products
+  const featuredProducts = sampleProducts.filter((product) => product.featured);
+
+  const handleInquiry = (product: Product) => {
+    setSelectedProduct(product);
+    setSelectedVariants({});
+    setIsInquiryModalOpen(true);
+  };
+
   return (
     <main className="bg-background">
       {/* Hero Section */}
       <section className="relative min-h-[600px] flex items-center overflow-hidden bg-gradient-to-r from-slate-800 to-slate-900">
-        {/* Background Image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-20"
-          style={{
-            backgroundImage: `url('https://readdy.ai/api/search-image?query=luxury%20professional%20jewelry%20workshop%20with%20sophisticated%20diamond%20rings%20necklaces%20and%20elegant%20jewelry%20pieces%20displayed%20on%20clean%20modern%20surfaces%20with%20soft%20professional%20lighting%20and%20refined%20minimalist%20background%20perfect%20for%20B2B%20jewelry%20business&width=1920&height=600&seq=hero-kenayo-1&orientation=landscape')`
-          }}
+        {/* Sliding Background Images */}
+        <SlideBackground
+          images={heroImages}
+          interval={4000}
+          className="opacity-20"
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 w-full">
           <div className="max-w-4xl">
             <div className="text-left">
               <h1 className="text-6xl lg:text-8xl font-bold mb-6 text-white">
-                <span className="font-script text-8xl lg:text-9xl font-bold text-white block mb-4" style={{ fontFamily: 'Pacifico, cursive' }}>
+                <span
+                  className="font-script text-8xl lg:text-9xl font-bold text-white block mb-4"
+                  style={{ fontFamily: "Pacifico, cursive" }}
+                >
                   Kenayo
                 </span>
                 <span className="text-4xl lg:text-5xl font-light text-white">
@@ -33,7 +79,8 @@ export default function Index() {
 
               <p className="text-lg text-gray-400 leading-7 mb-8 max-w-2xl">
                 Professional B2B jewelry solutions for retailers worldwide. From
-                custom designs to bulk orders, we craft excellence in every piece.
+                custom designs to bulk orders, we craft excellence in every
+                piece.
               </p>
 
               <div className="flex gap-4 text-left">
@@ -61,63 +108,22 @@ export default function Index() {
               Our Categories
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Discover our comprehensive collection of fine jewelry designed for B2B partners
+              Discover our comprehensive collection of fine jewelry designed for
+              B2B partners
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Rings Category */}
-            <div className="text-center cursor-pointer">
-              <div className="aspect-square bg-white border border-gray-200 rounded-lg mb-4 overflow-hidden transition-shadow duration-150 hover:shadow-md">
-                <img
-                  src="https://readdy.ai/api/search-image?query=collection%20of%20various%20elegant%20diamond%20rings%20including%20solitaire%20engagement%20rings%20wedding%20bands%20and%20fashion%20rings%20professional%20jewelry%20photography%20clean%20background&width=300&height=300&seq=cat-rings&orientation=squarish"
-                  alt="Rings"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-1">Rings</h3>
-              <p className="text-gray-600 text-sm">150+ Designs</p>
-            </div>
-
-            {/* Necklaces Category */}
-            <div className="text-center cursor-pointer">
-              <div className="aspect-square bg-white border border-gray-200 rounded-lg mb-4 overflow-hidden transition-shadow duration-150 hover:shadow-md">
-                <img
-                  src="https://readdy.ai/api/search-image?query=collection%20of%20various%20elegant%20diamond%20necklaces%20including%20tennis%20necklaces%20pendants%20and%20chain%20necklaces%20professional%20jewelry%20photography%20clean%20background&width=300&height=300&seq=cat-necklaces&orientation=squarish"
-                  alt="Necklaces"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-1">Necklaces</h3>
-              <p className="text-gray-600 text-sm">120+ Designs</p>
-            </div>
-
-            {/* Earrings Category */}
-            <div className="text-center cursor-pointer">
-              <div className="aspect-square bg-white border border-gray-200 rounded-lg mb-4 overflow-hidden transition-shadow duration-150 hover:shadow-md">
-                <img
-                  src="https://readdy.ai/api/search-image?query=collection%20of%20various%20elegant%20diamond%20earrings%20including%20studs%20hoops%20and%20drop%20earrings%20professional%20jewelry%20photography%20clean%20background&width=300&height=300&seq=cat-earrings&orientation=squarish"
-                  alt="Earrings"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-1">Earrings</h3>
-              <p className="text-gray-600 text-sm">90+ Designs</p>
-            </div>
-
-            {/* Bracelets Category */}
-            <div className="text-center cursor-pointer">
-              <div className="aspect-square bg-white border border-gray-200 rounded-lg mb-4 overflow-hidden transition-shadow duration-150 hover:shadow-md">
-                <img
-                  src="https://readdy.ai/api/search-image?query=collection%20of%20various%20elegant%20diamond%20bracelets%20including%20tennis%20bracelets%20bangles%20and%20chain%20bracelets%20professional%20jewelry%20photography%20clean%20background&width=300&height=300&seq=cat-bracelets&orientation=squarish"
-                  alt="Bracelets"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-1">Bracelets</h3>
-              <p className="text-gray-600 text-sm">80+ Designs</p>
-            </div>
-          </div>
+          <HorizontalCategoriesCarousel
+            categories={categories.map((cat) => ({
+              ...cat,
+              onClick: () => {
+                // Navigate to catalog with category filter
+                window.location.href = `/catalog?category=${encodeURIComponent(cat.name)}`;
+              },
+            }))}
+            autoSlide={true}
+            slideInterval={4000}
+          />
         </div>
       </section>
 
@@ -134,153 +140,80 @@ export default function Index() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {/* Ring Product */}
-            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden transition-shadow duration-300 hover:shadow-lg">
-              <div className="aspect-square relative overflow-hidden cursor-pointer">
-                <img
-                  src="https://readdy.ai/api/search-image?query=elegant%20diamond%20solitaire%20ring%20with%20brilliant%20cut%20center%20stone%20on%20white%20gold%20band%20professional%20jewelry%20photography%20clean%20white%20background%20luxury%20engagement%20ring&width=400&height=400&seq=ring-1&orientation=squarish"
-                  alt="Elegant Diamond Solitaire Ring"
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                />
-                <div className="absolute top-3 right-3">
-                  <span className="bg-slate-800 text-white text-xs px-2 py-1 rounded-full">
-                    Rings
-                  </span>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="font-semibold text-gray-900 mb-2 min-h-12 line-clamp-2">
-                  Elegant Diamond Solitaire Ring
-                </h3>
-                <p className="text-slate-800 text-lg font-bold mb-3">
-                  As low as $450 per piece
-                </p>
-                <div className="mb-4">
-                  <div className="flex items-center">
-                    <span className="text-gray-600 text-sm min-w-15">Metal:</span>
-                    <div className="flex ml-2">
-                      <button className="w-6 h-6 bg-white border-2 border-gray-300 rounded-full" title="White"></button>
-                      <button className="w-6 h-6 bg-yellow-400 border-2 border-gray-300 rounded-full ml-1" title="Yellow"></button>
-                      <button className="w-6 h-6 bg-pink-400 border-2 border-gray-300 rounded-full ml-1" title="Rose"></button>
-                    </div>
+            {featuredProducts.map((product) => (
+              <div
+                key={product.id}
+                className="bg-white border border-gray-200 rounded-lg overflow-hidden transition-shadow duration-300 hover:shadow-lg"
+              >
+                <div className="aspect-square relative overflow-hidden cursor-pointer">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                  />
+                  <div className="absolute top-3 right-3">
+                    <span className="bg-slate-800 text-white text-xs px-2 py-1 rounded-full">
+                      {product.category}
+                    </span>
                   </div>
                 </div>
-                <button className="w-full bg-slate-800 text-white py-2 rounded-md font-medium transition-colors hover:bg-slate-700">
-                  Inquiry
-                </button>
-              </div>
-            </div>
-
-            {/* Necklace Product */}
-            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden transition-shadow duration-300 hover:shadow-lg">
-              <div className="aspect-square relative overflow-hidden cursor-pointer">
-                <img
-                  src="https://readdy.ai/api/search-image?query=tennis%20diamond%20necklace%20with%20brilliant%20cut%20diamonds%20in%20white%20gold%20setting%20professional%20jewelry%20photography%20clean%20white%20background%20luxury%20bridal%20jewelry&width=400&height=400&seq=necklace-1&orientation=squarish"
-                  alt="Tennis Diamond Necklace"
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                />
-                <div className="absolute top-3 right-3">
-                  <span className="bg-slate-800 text-white text-xs px-2 py-1 rounded-full">
-                    Necklaces
-                  </span>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="font-semibold text-gray-900 mb-2 min-h-12 line-clamp-2">
-                  Tennis Diamond Necklace
-                </h3>
-                <p className="text-slate-800 text-lg font-bold mb-3">
-                  As low as $1,200 per piece
-                </p>
-                <div className="mb-4">
-                  <div className="flex items-center">
-                    <span className="text-gray-600 text-sm min-w-15">Length:</span>
-                    <div className="flex ml-2">
-                      <button className="w-6 h-6 bg-gray-300 border-2 border-gray-300 rounded-full text-xs" title="16&quot;"></button>
-                      <button className="w-6 h-6 bg-gray-300 border-2 border-gray-300 rounded-full ml-1 text-xs" title="18&quot;"></button>
-                      <button className="w-6 h-6 bg-gray-300 border-2 border-gray-300 rounded-full ml-1 text-xs" title="20&quot;"></button>
+                <div className="p-4">
+                  <h3 className="font-semibold text-gray-900 mb-2 min-h-12 line-clamp-2">
+                    {product.name}
+                  </h3>
+                  <div className="mb-4">
+                    <div className="flex items-center">
+                      <span className="text-gray-600 text-sm min-w-15">
+                        {Object.keys(product.variants)[0] === "metal"
+                          ? "Metal:"
+                          : Object.keys(product.variants)[0] === "size"
+                            ? "Size:"
+                            : Object.keys(product.variants)[0] === "length"
+                              ? "Length:"
+                              : Object.keys(product.variants)[0] === "stone"
+                                ? "Stone:"
+                                : "Options:"}
+                      </span>
+                      <div className="flex ml-2">
+                        {product.variants[Object.keys(product.variants)[0]]
+                          ?.slice(0, 3)
+                          .map((variant, index) =>
+                            Object.keys(product.variants)[0] === "metal" ? (
+                              <button
+                                key={variant}
+                                className={`w-6 h-6 border-2 border-gray-300 rounded-full ${index > 0 ? "ml-1" : ""} ${
+                                  variant.toLowerCase().includes("white")
+                                    ? "bg-white"
+                                    : variant.toLowerCase().includes("yellow")
+                                      ? "bg-yellow-400"
+                                      : variant.toLowerCase().includes("rose")
+                                        ? "bg-pink-400"
+                                        : "bg-gray-300"
+                                }`}
+                                title={variant}
+                              />
+                            ) : (
+                              <button
+                                key={variant}
+                                className={`w-auto h-6 px-2 bg-gray-300 border-2 border-gray-300 rounded-full text-xs ${index > 0 ? "ml-1" : ""}`}
+                                title={variant}
+                              >
+                                {variant}
+                              </button>
+                            ),
+                          )}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <button className="w-full bg-slate-800 text-white py-2 rounded-md font-medium transition-colors hover:bg-slate-700">
-                  Inquiry
-                </button>
-              </div>
-            </div>
-
-            {/* Earrings Product */}
-            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden transition-shadow duration-300 hover:shadow-lg">
-              <div className="aspect-square relative overflow-hidden cursor-pointer">
-                <img
-                  src="https://readdy.ai/api/search-image?query=diamond%20stud%20earrings%20with%20brilliant%20cut%20diamonds%20in%20white%20gold%20setting%20professional%20jewelry%20photography%20clean%20white%20background%20luxury%20bridal%20jewelry&width=400&height=400&seq=earring-1&orientation=squarish"
-                  alt="Diamond Stud Earrings"
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                />
-                <div className="absolute top-3 right-3">
-                  <span className="bg-slate-800 text-white text-xs px-2 py-1 rounded-full">
-                    Earrings
-                  </span>
+                  <button
+                    onClick={() => handleInquiry(product)}
+                    className="w-full bg-slate-800 text-white py-2 rounded-md font-medium transition-colors hover:bg-slate-700"
+                  >
+                    Inquiry
+                  </button>
                 </div>
               </div>
-              <div className="p-4">
-                <h3 className="font-semibold text-gray-900 mb-2 min-h-12 line-clamp-2">
-                  Diamond Stud Earrings
-                </h3>
-                <p className="text-slate-800 text-lg font-bold mb-3">
-                  As low as $280 per pair
-                </p>
-                <div className="mb-4">
-                  <div className="flex items-center">
-                    <span className="text-gray-600 text-sm min-w-15">Size:</span>
-                    <div className="flex ml-2">
-                      <button className="w-6 h-6 bg-gray-300 border-2 border-gray-300 rounded-full text-xs" title="0.5ct"></button>
-                      <button className="w-6 h-6 bg-gray-300 border-2 border-gray-300 rounded-full ml-1 text-xs" title="1ct"></button>
-                      <button className="w-6 h-6 bg-gray-300 border-2 border-gray-300 rounded-full ml-1 text-xs" title="1.5ct"></button>
-                    </div>
-                  </div>
-                </div>
-                <button className="w-full bg-slate-800 text-white py-2 rounded-md font-medium transition-colors hover:bg-slate-700">
-                  Inquiry
-                </button>
-              </div>
-            </div>
-
-            {/* Bracelet Product */}
-            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden transition-shadow duration-300 hover:shadow-lg">
-              <div className="aspect-square relative overflow-hidden cursor-pointer">
-                <img
-                  src="https://readdy.ai/api/search-image?query=diamond%20tennis%20bracelet%20with%20brilliant%20cut%20diamonds%20in%20white%20gold%20setting%20professional%20jewelry%20photography%20clean%20white%20background%20luxury%20bridal%20jewelry&width=400&height=400&seq=bracelet-1&orientation=squarish"
-                  alt="Diamond Tennis Bracelet"
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                />
-                <div className="absolute top-3 right-3">
-                  <span className="bg-slate-800 text-white text-xs px-2 py-1 rounded-full">
-                    Bracelets
-                  </span>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="font-semibold text-gray-900 mb-2 min-h-12 line-clamp-2">
-                  Diamond Tennis Bracelet
-                </h3>
-                <p className="text-slate-800 text-lg font-bold mb-3">
-                  As low as $850 per piece
-                </p>
-                <div className="mb-4">
-                  <div className="flex items-center">
-                    <span className="text-gray-600 text-sm min-w-15">Length:</span>
-                    <div className="flex ml-2">
-                      <button className="w-6 h-6 bg-gray-300 border-2 border-gray-300 rounded-full text-xs" title="7&quot;"></button>
-                      <button className="w-6 h-6 bg-gray-300 border-2 border-gray-300 rounded-full ml-1 text-xs" title="7.5&quot;"></button>
-                      <button className="w-6 h-6 bg-gray-300 border-2 border-gray-300 rounded-full ml-1 text-xs" title="8&quot;"></button>
-                    </div>
-                  </div>
-                </div>
-                <button className="w-full bg-slate-800 text-white py-2 rounded-md font-medium transition-colors hover:bg-slate-700">
-                  Inquiry
-                </button>
-              </div>
-            </div>
+            ))}
           </div>
 
           <div className="text-center">
@@ -315,7 +248,8 @@ export default function Index() {
                 Custom Manufacturing
               </h3>
               <p className="text-gray-600 text-sm leading-5">
-                Tailor-made designs to match your brand requirements with flexible MOQ options
+                Tailor-made designs to match your brand requirements with
+                flexible MOQ options
               </p>
             </div>
 
@@ -341,7 +275,8 @@ export default function Index() {
                 Global Shipping
               </h3>
               <p className="text-gray-600 text-sm leading-5">
-                Worldwide delivery with secure packaging and comprehensive insurance
+                Worldwide delivery with secure packaging and comprehensive
+                insurance
               </p>
             </div>
 
@@ -354,7 +289,8 @@ export default function Index() {
                 Quality Certified
               </h3>
               <p className="text-gray-600 text-sm leading-5">
-                All products come with authenticity certificates and quality guarantees
+                All products come with authenticity certificates and quality
+                guarantees
               </p>
             </div>
 
@@ -367,7 +303,8 @@ export default function Index() {
                 Dedicated Support
               </h3>
               <p className="text-gray-600 text-sm leading-5">
-                24/7 customer service with dedicated account managers for B2B clients
+                24/7 customer service with dedicated account managers for B2B
+                clients
               </p>
             </div>
 
@@ -403,13 +340,23 @@ export default function Index() {
               </Button>
             </Link>
             <Link to="/contact">
-              <Button variant="white">
-                Get Quote
-              </Button>
+              <Button variant="white">Get Quote</Button>
             </Link>
           </div>
         </div>
       </section>
+
+      {/* Inquiry Modal */}
+      <InquiryModal
+        isOpen={isInquiryModalOpen}
+        onClose={() => {
+          setIsInquiryModalOpen(false);
+          setSelectedProduct(null);
+          setSelectedVariants({});
+        }}
+        product={selectedProduct || undefined}
+        selectedVariants={selectedVariants}
+      />
     </main>
   );
 }

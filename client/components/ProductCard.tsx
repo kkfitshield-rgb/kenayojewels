@@ -1,51 +1,40 @@
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { 
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Card, CardContent } from '@/components/ui/card';
-import { Heart, Eye, MessageCircle } from 'lucide-react';
-import { useState } from 'react';
-
-export interface Product {
-  id: string;
-  name: string;
-  category: string;
-  image: string;
-  images?: string[];
-  lowestPrice: number;
-  priceRange: {
-    min: number;
-    max: number;
-  };
-  variants: {
-    metal: string[];
-    size?: string[];
-    stone?: string[];
-  };
-  description: string;
-  minimumOrder?: number;
-  featured?: boolean;
-}
+} from "@/components/ui/select";
+import { Card, CardContent } from "@/components/ui/card";
+import { Heart, Eye, MessageCircle } from "lucide-react";
+import { useState } from "react";
+import { Product } from "@shared/products";
 
 interface ProductCardProps {
   product: Product;
-  onInquiry: (product: Product, selectedVariants: Record<string, string>) => void;
+  onInquiry: (
+    product: Product,
+    selectedVariants: Record<string, string>,
+  ) => void;
   onQuickView?: (product: Product) => void;
 }
 
-export default function ProductCard({ product, onInquiry, onQuickView }: ProductCardProps) {
-  const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({});
+export default function ProductCard({
+  product,
+  onInquiry,
+  onQuickView,
+}: ProductCardProps) {
+  const [selectedVariants, setSelectedVariants] = useState<
+    Record<string, string>
+  >({});
   const [isHovered, setIsHovered] = useState(false);
 
   const handleVariantChange = (type: string, value: string) => {
-    setSelectedVariants(prev => ({
+    setSelectedVariants((prev) => ({
       ...prev,
-      [type]: value
+      [type]: value,
     }));
   };
 
@@ -54,7 +43,7 @@ export default function ProductCard({ product, onInquiry, onQuickView }: Product
   };
 
   return (
-    <Card 
+    <Card
       className="group overflow-hidden bg-white jewelry-shadow hover:shadow-lg transition-all duration-300 border-0"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -67,11 +56,13 @@ export default function ProductCard({ product, onInquiry, onQuickView }: Product
             alt={product.name}
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          
+
           {/* Overlay Actions */}
-          <div className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity duration-300 ${
-            isHovered ? 'opacity-100' : 'opacity-0'
-          }`}>
+          <div
+            className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity duration-300 ${
+              isHovered ? "opacity-100" : "opacity-0"
+            }`}
+          >
             <div className="flex space-x-2">
               <Button
                 size="sm"
@@ -84,23 +75,25 @@ export default function ProductCard({ product, onInquiry, onQuickView }: Product
               </Button>
             </div>
           </div>
-          
+
           {/* Badges */}
           <div className="absolute top-3 left-3 flex flex-col space-y-2">
             {product.featured && (
-              <Badge className="bg-accent text-accent-foreground">Featured</Badge>
+              <Badge className="bg-accent text-accent-foreground">
+                Featured
+              </Badge>
             )}
             <Badge variant="secondary" className="bg-white/90 text-foreground">
               {product.category}
             </Badge>
           </div>
-          
+
           {/* Wishlist */}
           <button className="absolute top-3 right-3 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors">
             <Heart className="w-4 h-4 text-muted-foreground hover:text-red-500" />
           </button>
         </div>
-        
+
         <CardContent className="p-4">
           {/* Product Info */}
           <div className="mb-4">
@@ -110,29 +103,14 @@ export default function ProductCard({ product, onInquiry, onQuickView }: Product
             <p className="text-muted-foreground text-sm line-clamp-2 mb-3">
               {product.description}
             </p>
-            
-            {/* Pricing */}
-            <div className="mb-4">
-              <p className="text-2xl font-bold text-primary">
-                ${product.lowestPrice.toLocaleString()}
-              </p>
-              <p className="text-sm text-muted-foreground">
-                As low as per piece
-              </p>
-              {product.priceRange.min !== product.priceRange.max && (
-                <p className="text-xs text-muted-foreground">
-                  Range: ${product.priceRange.min.toLocaleString()} - ${product.priceRange.max.toLocaleString()}
-                </p>
-              )}
-            </div>
-            
+
             {product.minimumOrder && (
               <p className="text-xs text-muted-foreground mb-3">
                 Min. Order: {product.minimumOrder} pieces
               </p>
             )}
           </div>
-          
+
           {/* Variant Selectors */}
           <div className="space-y-3 mb-4">
             {product.variants.metal && product.variants.metal.length > 0 && (
@@ -140,7 +118,9 @@ export default function ProductCard({ product, onInquiry, onQuickView }: Product
                 <label className="text-xs font-medium text-muted-foreground mb-1 block">
                   Metal Type
                 </label>
-                <Select onValueChange={(value) => handleVariantChange('metal', value)}>
+                <Select
+                  onValueChange={(value) => handleVariantChange("metal", value)}
+                >
                   <SelectTrigger className="h-8 text-sm">
                     <SelectValue placeholder="Select metal" />
                   </SelectTrigger>
@@ -154,13 +134,15 @@ export default function ProductCard({ product, onInquiry, onQuickView }: Product
                 </Select>
               </div>
             )}
-            
+
             {product.variants.size && product.variants.size.length > 0 && (
               <div>
                 <label className="text-xs font-medium text-muted-foreground mb-1 block">
                   Size
                 </label>
-                <Select onValueChange={(value) => handleVariantChange('size', value)}>
+                <Select
+                  onValueChange={(value) => handleVariantChange("size", value)}
+                >
                   <SelectTrigger className="h-8 text-sm">
                     <SelectValue placeholder="Select size" />
                   </SelectTrigger>
@@ -174,13 +156,15 @@ export default function ProductCard({ product, onInquiry, onQuickView }: Product
                 </Select>
               </div>
             )}
-            
+
             {product.variants.stone && product.variants.stone.length > 0 && (
               <div>
                 <label className="text-xs font-medium text-muted-foreground mb-1 block">
                   Stone Type
                 </label>
-                <Select onValueChange={(value) => handleVariantChange('stone', value)}>
+                <Select
+                  onValueChange={(value) => handleVariantChange("stone", value)}
+                >
                   <SelectTrigger className="h-8 text-sm">
                     <SelectValue placeholder="Select stone" />
                   </SelectTrigger>
@@ -195,10 +179,10 @@ export default function ProductCard({ product, onInquiry, onQuickView }: Product
               </div>
             )}
           </div>
-          
+
           {/* Action Buttons */}
           <div className="flex space-x-2">
-            <Button 
+            <Button
               className="flex-1 luxury-gradient text-white hover:opacity-90"
               onClick={handleInquiry}
             >
