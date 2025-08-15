@@ -17,6 +17,9 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// Suppress ResizeObserver errors on app initialization
+suppressResizeObserverError();
+
 const Layout = ({ children }: { children: React.ReactNode }) => (
   <div className="min-h-screen bg-background flex flex-col">
     <Header />
