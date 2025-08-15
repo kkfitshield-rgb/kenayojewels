@@ -305,6 +305,9 @@ export default function Index() {
           </div>
         </div>
       </section>
+
+      {/* API Test Component for debugging */}
+      <ApiTest />
     </main>
   );
 }
