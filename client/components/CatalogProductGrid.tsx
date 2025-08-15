@@ -8,30 +8,14 @@ interface CatalogProductGridProps {
   products?: Product[];
 }
 
-// Transform shared products to catalog format
-const transformProductToCatalog = (product: Product) => ({
-  id: product.id,
-  name: product.name,
-  category: product.category,
-  image: product.image,
-  price: `As low as $${product.lowestPrice} per piece`,
-  variants: product.variants,
-  variantLabel: Object.keys(product.variants)[0] === 'metal' ? 'Metal' :
-                Object.keys(product.variants)[0] === 'size' ? 'Size' :
-                Object.keys(product.variants)[0] === 'length' ? 'Length' :
-                Object.keys(product.variants)[0] === 'stone' ? 'Stone' :
-                Object.keys(product.variants)[0] === 'cut' ? 'Cut' :
-                'Options'
-});
-
 const getMetalButtonStyle = (metal: string, isSelected: boolean) => {
   const baseClasses = "appearance-button h-6 w-6 rounded-full border-2 border-gray-300 cursor-pointer transition-colors";
   
-  if (metal === 'white') {
+  if (metal.toLowerCase().includes('white')) {
     return `${baseClasses} bg-white ${isSelected ? 'ring-2 ring-slate-800' : ''}`;
-  } else if (metal === 'yellow') {
+  } else if (metal.toLowerCase().includes('yellow')) {
     return `${baseClasses} bg-yellow-400 ${isSelected ? 'ring-2 ring-slate-800' : ''}`;
-  } else if (metal === 'pink') {
+  } else if (metal.toLowerCase().includes('rose') || metal.toLowerCase().includes('pink')) {
     return `${baseClasses} bg-pink-400 ${isSelected ? 'ring-2 ring-slate-800' : ''}`;
   }
   return `${baseClasses} bg-gray-300 ${isSelected ? 'ring-2 ring-slate-800' : ''}`;
@@ -62,7 +46,7 @@ export default function CatalogProductGrid({ selectedCategory = 'All', products 
           if (selectedCategory !== 'All') {
             params.append('category', selectedCategory);
           }
-
+          
           const response = await fetch(`/api/products?${params.toString()}`);
           if (response.ok) {
             const data = await response.json();
@@ -71,16 +55,16 @@ export default function CatalogProductGrid({ selectedCategory = 'All', products 
             }
           } else {
             // Fallback to filtered local data
-            const filtered = selectedCategory === 'All'
-              ? sampleProducts
+            const filtered = selectedCategory === 'All' 
+              ? sampleProducts 
               : sampleProducts.filter(p => p.category === selectedCategory);
             setDisplayProducts(filtered);
           }
         } catch (error) {
           console.error('Error fetching products:', error);
           // Fallback to filtered local data
-          const filtered = selectedCategory === 'All'
-            ? sampleProducts
+          const filtered = selectedCategory === 'All' 
+            ? sampleProducts 
             : sampleProducts.filter(p => p.category === selectedCategory);
           setDisplayProducts(filtered);
         }
@@ -107,7 +91,7 @@ export default function CatalogProductGrid({ selectedCategory = 'All', products 
       <section className="bg-white py-12">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {catalogProducts.map((product) => (
+            {displayProducts.map((product) => (
               <div
                 key={product.id}
                 className="bg-white border border-gray-200 rounded-lg overflow-hidden transition-shadow duration-300 hover:shadow-lg"
@@ -129,20 +113,27 @@ export default function CatalogProductGrid({ selectedCategory = 'All', products 
                     {product.name}
                   </h3>
                   <p className="text-slate-800 text-lg font-bold leading-7 mb-3">
-                    {product.price}
+                    As low as ${product.lowestPrice} per piece
                   </p>
                   <div className="mb-4">
                     <div className="flex items-center">
                       <span className="text-gray-600 text-sm min-w-15">
-                        <span>{product.variantLabel}</span>
+                        <span>
+                          {Object.keys(product.variants)[0] === 'metal' ? 'Metal' :
+                           Object.keys(product.variants)[0] === 'size' ? 'Size' :
+                           Object.keys(product.variants)[0] === 'length' ? 'Length' :
+                           Object.keys(product.variants)[0] === 'stone' ? 'Stone' :
+                           Object.keys(product.variants)[0] === 'cut' ? 'Cut' :
+                           'Options'}
+                        </span>
                         <span>:</span>
                       </span>
                       <div className="flex ml-2">
-                        {product.variants[Object.keys(product.variants)[0]].map((variant, index) => {
+                        {product.variants[Object.keys(product.variants)[0]]?.slice(0, 3).map((variant, index) => {
                           const variantKey = `${product.id}-${Object.keys(product.variants)[0]}`;
                           const isSelected = selectedVariants[variantKey] === variant;
                           
-                          if (product.variantLabel === 'Metal') {
+                          if (Object.keys(product.variants)[0] === 'metal') {
                             return (
                               <button
                                 key={variant}
@@ -187,17 +178,7 @@ export default function CatalogProductGrid({ selectedCategory = 'All', products 
           setIsInquiryModalOpen(false);
           setSelectedProduct(null);
         }}
-        product={selectedProduct ? {
-          id: selectedProduct.id,
-          name: selectedProduct.name,
-          category: selectedProduct.category,
-          image: selectedProduct.image,
-          lowestPrice: 0,
-          priceRange: { min: 0, max: 0 },
-          variants: {},
-          description: '',
-          minimumOrder: 1
-        } : undefined}
+        product={selectedProduct || undefined}
         selectedVariants={selectedVariants}
       />
     </>
