@@ -77,32 +77,9 @@ export default function Catalog() {
   }, [selectedCategory, searchTerm, sortBy]);
 
   const filteredAndSortedProducts = useMemo(() => {
-    let filtered = sampleProducts.filter(product => {
-      const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           product.description.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
-      return matchesSearch && matchesCategory;
-    });
-
-    // Sort products
-    filtered.sort((a, b) => {
-      switch (sortBy) {
-        case 'price-low':
-          return a.lowestPrice - b.lowestPrice;
-        case 'price-high':
-          return b.lowestPrice - a.lowestPrice;
-        case 'name':
-          return a.name.localeCompare(b.name);
-        case 'featured':
-        default:
-          if (a.featured && !b.featured) return -1;
-          if (!a.featured && b.featured) return 1;
-          return 0;
-      }
-    });
-
-    return filtered;
-  }, [searchTerm, selectedCategory, sortBy]);
+    // Products are already filtered and sorted by the backend
+    return products;
+  }, [products]);
 
   const handleProductInquiry = (product: Product, variants: Record<string, string>) => {
     setSelectedProduct(product);
