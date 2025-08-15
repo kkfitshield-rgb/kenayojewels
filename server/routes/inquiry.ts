@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import { emailService } from "../services/emailService";
 import { z } from "zod";
 
 // Validation schema for inquiry data
@@ -27,13 +28,7 @@ export const handleInquiry: RequestHandler = async (req, res) => {
     // Validate the request body
     const inquiryData: InquiryData = InquirySchema.parse(req.body);
     
-    // In a real application, you would:
-    // 1. Save to database
-    // 2. Send email notification
-    // 3. Add to CRM system
-    // 4. Send confirmation email to customer
-    
-    // For now, we'll just log the inquiry and simulate email sending
+    // Log the inquiry for debugging
     console.log('New inquiry received:', {
       type: inquiryData.type,
       customer: `${inquiryData.name} from ${inquiryData.company}`,
@@ -42,22 +37,49 @@ export const handleInquiry: RequestHandler = async (req, res) => {
       timestamp: inquiryData.timestamp
     });
     
-    // Simulate email content
-    const emailContent = generateEmailContent(inquiryData);
-    console.log('Email content that would be sent:', emailContent);
+    // Generate unique inquiry ID
+    const inquiryId = `INQ-${Date.now()}`;
     
-    // In production, you would send this email using a service like:
-    // - SendGrid
-    // - AWS SES
-    // - Nodemailer with SMTP
-    // - Resend
+    // Attempt to send notification email to owner
+    let emailSent = false;
+    let customerEmailSent = false;
+    
+    try {
+      emailSent = await emailService.sendInquiryNotification(inquiryData);
+      if (emailSent) {
+        console.log(`Owner notification email sent for inquiry ${inquiryId}`);
+      }
+    } catch (emailError) {
+      console.error(`Failed to send owner notification for inquiry ${inquiryId}:`, emailError);
+    }
+    
+    // Attempt to send confirmation email to customer
+    try {
+      customerEmailSent = await emailService.sendCustomerConfirmation(inquiryData);
+      if (customerEmailSent) {
+        console.log(`Customer confirmation email sent for inquiry ${inquiryId}`);
+      }
+    } catch (emailError) {
+      console.error(`Failed to send customer confirmation for inquiry ${inquiryId}:`, emailError);
+    }
+    
+    // In a real application, you would also:
+    // 1. Save to database
+    // 2. Add to CRM system
+    // 3. Create follow-up tasks
     
     // Return success response
-    res.status(200).json({
+    const response = {
       success: true,
       message: "Inquiry received successfully. We will get back to you within 24 hours.",
-      inquiryId: `INQ-${Date.now()}` // Generate a unique inquiry ID
-    });
+      inquiryId: inquiryId,
+      emailStatus: {
+        ownerNotified: emailSent,
+        customerConfirmed: customerEmailSent
+      }
+    };
+    
+    res.status(200).json(response);
     
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -75,44 +97,3 @@ export const handleInquiry: RequestHandler = async (req, res) => {
     });
   }
 };
-
-function generateEmailContent(inquiry: InquiryData): string {
-  const subject = inquiry.type === 'product' 
-    ? `New Product Inquiry: ${inquiry.product?.name}`
-    : 'New General Inquiry - Kenayo Jewels';
-    
-  const content = `
-New ${inquiry.type} inquiry received from Kenayo Jewels website
-
-Customer Information:
-- Name: ${inquiry.name}
-- Company: ${inquiry.company}
-- Email: ${inquiry.email}
-- Phone: ${inquiry.phone || 'Not provided'}
-- Timestamp: ${new Date(inquiry.timestamp).toLocaleString()}
-
-${inquiry.type === 'product' && inquiry.product ? `
-Product Details:
-- Product: ${inquiry.product.name}
-- Category: ${inquiry.product.category}
-- Product ID: ${inquiry.product.id}
-
-Selected Variants:
-${Object.entries(inquiry.product.selectedVariants)
-  .map(([key, value]) => `- ${key}: ${value}`)
-  .join('\n') || 'None selected'}
-
-Order Details:
-- Quantity: ${inquiry.quantity || 'Not specified'}
-- Urgency: ${inquiry.urgency || 'Not specified'}
-` : ''}
-
-Message:
-${inquiry.message || 'No additional message provided'}
-
----
-Please respond to this inquiry within 24 hours to maintain our service standards.
-  `.trim();
-  
-  return content;
-}
