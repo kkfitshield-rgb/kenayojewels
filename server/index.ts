@@ -29,5 +29,11 @@ export function createServer() {
   app.post("/api/inquiry", handleInquiry);
   app.get("/api/placeholder/:width/:height", handlePlaceholder);
 
+  // Product and category routes
+  app.get("/api/categories", handleGetCategories);
+  app.get("/api/products", handleGetProducts);
+  app.get("/api/products/category/:categoryId", handleGetProductsByCategory);
+  app.get("/api/products/:productId", handleGetProduct);
+
   return app;
 }
