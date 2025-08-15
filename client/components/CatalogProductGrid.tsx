@@ -39,35 +39,46 @@ export default function CatalogProductGrid({ selectedCategory = 'All', products 
       if (products) {
         // Use passed products
         setDisplayProducts(products);
-      } else {
-        // Fetch from API or use local data
-        try {
-          const params = new URLSearchParams();
-          if (selectedCategory !== 'All') {
-            params.append('category', selectedCategory);
-          }
-          
-          const response = await fetch(`/api/products?${params.toString()}`);
-          if (response.ok) {
-            const data = await response.json();
-            if (data.success) {
-              setDisplayProducts(data.products);
-            }
-          } else {
-            // Fallback to filtered local data
-            const filtered = selectedCategory === 'All' 
-              ? sampleProducts 
-              : sampleProducts.filter(p => p.category === selectedCategory);
-            setDisplayProducts(filtered);
-          }
-        } catch (error) {
-          console.error('Error fetching products:', error);
-          // Fallback to filtered local data
-          const filtered = selectedCategory === 'All' 
-            ? sampleProducts 
-            : sampleProducts.filter(p => p.category === selectedCategory);
-          setDisplayProducts(filtered);
+        return;
+      }
+
+      // Fetch from API or use local data
+      try {
+        const params = new URLSearchParams();
+        if (selectedCategory !== 'All') {
+          params.append('category', selectedCategory);
         }
+
+        const response = await fetch(`/api/products?${params.toString()}`);
+
+        if (response.ok) {
+          const text = await response.text();
+
+          // Check if response is JSON
+          if (text.startsWith('{') || text.startsWith('[')) {
+            const data = JSON.parse(text);
+            if (data.success && Array.isArray(data.products)) {
+              setDisplayProducts(data.products);
+              return;
+            }
+          }
+        }
+
+        // If we get here, API failed or returned invalid data
+        console.warn('API returned invalid data, falling back to local data');
+        throw new Error('Invalid API response');
+
+      } catch (error) {
+        console.error('Error fetching products:', error);
+
+        // Fallback to filtered local data
+        const filtered = selectedCategory === 'All'
+          ? sampleProducts
+          : sampleProducts.filter(p =>
+              p.category === selectedCategory ||
+              p.categoryId === selectedCategory.toLowerCase().replace(/\s+/g, '-')
+            );
+        setDisplayProducts(filtered);
       }
     };
 
