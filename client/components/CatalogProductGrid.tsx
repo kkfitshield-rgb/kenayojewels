@@ -97,7 +97,7 @@ export default function CatalogProductGrid({ selectedCategory = 'All', products 
     }));
   };
 
-  const handleInquiry = (product: CatalogProduct) => {
+  const handleInquiry = (product: Product) => {
     setSelectedProduct(product);
     setIsInquiryModalOpen(true);
   };
