@@ -3,152 +3,26 @@ import InquiryModal from './InquiryModal';
 import { sampleProducts, Product } from '@shared/products';
 import { jewelryCategories } from '@shared/categories';
 
-interface CatalogProduct {
-  id: string;
-  name: string;
-  category: string;
-  image: string;
-  price: string;
-  variants: {
-    [key: string]: string[];
-  };
-  variantLabel: string;
+interface CatalogProductGridProps {
+  selectedCategory?: string;
+  products?: Product[];
 }
 
-const catalogProducts: CatalogProduct[] = [
-  {
-    id: '1',
-    name: 'Classic Solitaire Diamond Ring',
-    category: 'Rings',
-    image: 'https://readdy.ai/api/search-image?query=classic%20solitaire%20diamond%20ring%20with%20brilliant%20cut%20center%20stone%20professional%20jewelry%20photography%20clean%20white%20background%20luxury%20engagement%20ring&width=400&height=400&seq=catalog-ring-1&orientation=squarish',
-    price: 'As low as $450 per piece',
-    variants: {
-      metal: ['white', 'yellow', 'pink']
-    },
-    variantLabel: 'Metal'
-  },
-  {
-    id: '2',
-    name: 'Diamond Bangle Set',
-    category: 'Bracelets',
-    image: 'https://readdy.ai/api/search-image?query=diamond%20bangle%20set%20with%20multiple%20bangles%20featuring%20diamond%20accents%20professional%20jewelry%20photography%20clean%20white%20background%20luxury%20fashion%20jewelry&width=400&height=400&seq=catalog-bracelet-2&orientation=squarish',
-    price: 'As low as $1,250 per set',
-    variants: {
-      count: ['2-Piece', '3-Piece', '4-Piece']
-    },
-    variantLabel: 'Count'
-  },
-  {
-    id: '3',
-    name: 'Diamond Chain Bracelet',
-    category: 'Bracelets',
-    image: 'https://readdy.ai/api/search-image?query=diamond%20chain%20bracelet%20with%20delicate%20chain%20and%20diamond%20accents%20professional%20jewelry%20photography%20clean%20white%20background%20luxury%20everyday%20jewelry&width=400&height=400&seq=catalog-bracelet-3&orientation=squarish',
-    price: 'As low as $380 per piece',
-    variants: {
-      length: ['7"', '7.5"', '8"']
-    },
-    variantLabel: 'Length'
-  },
-  {
-    id: '4',
-    name: 'Diamond Drop Earrings',
-    category: 'Earrings',
-    image: 'https://readdy.ai/api/search-image?query=diamond%20drop%20earrings%20with%20elegant%20dangling%20design%20professional%20jewelry%20photography%20clean%20white%20background%20luxury%20evening%20jewelry&width=400&height=400&seq=catalog-earring-3&orientation=squarish',
-    price: 'As low as $650 per pair',
-    variants: {
-      length: ['Short', 'Medium', 'Long']
-    },
-    variantLabel: 'Length'
-  },
-  {
-    id: '5',
-    name: 'Diamond Hoop Earrings',
-    category: 'Earrings',
-    image: 'https://readdy.ai/api/search-image?query=diamond%20hoop%20earrings%20with%20diamonds%20set%20around%20the%20hoop%20professional%20jewelry%20photography%20clean%20white%20background%20luxury%20fashion%20jewelry&width=400&height=400&seq=catalog-earring-2&orientation=squarish',
-    price: 'As low as $420 per pair',
-    variants: {
-      size: ['Small', 'Medium', 'Large']
-    },
-    variantLabel: 'Size'
-  },
-  {
-    id: '6',
-    name: 'Diamond Pendant Necklace',
-    category: 'Necklaces',
-    image: 'https://readdy.ai/api/search-image?query=diamond%20pendant%20necklace%20with%20solitaire%20diamond%20pendant%20on%20delicate%20chain%20professional%20jewelry%20photography%20clean%20white%20background%20luxury%20bridal%20jewelry&width=400&height=400&seq=catalog-necklace-2&orientation=squarish',
-    price: 'As low as $580 per piece',
-    variants: {
-      length: ['16"', '18"', '20"']
-    },
-    variantLabel: 'Length'
-  },
-  {
-    id: '7',
-    name: 'Diamond Stud Earrings',
-    category: 'Earrings',
-    image: 'https://readdy.ai/api/search-image?query=diamond%20stud%20earrings%20with%20brilliant%20cut%20diamonds%20in%20prong%20setting%20professional%20jewelry%20photography%20clean%20white%20background%20luxury%20bridal%20jewelry&width=400&height=400&seq=catalog-earring-1&orientation=squarish',
-    price: 'As low as $280 per pair',
-    variants: {
-      size: ['0.5ct', '1ct', '1.5ct']
-    },
-    variantLabel: 'Size'
-  },
-  {
-    id: '8',
-    name: 'Diamond Tennis Bracelet',
-    category: 'Bracelets',
-    image: 'https://readdy.ai/api/search-image?query=diamond%20tennis%20bracelet%20with%20brilliant%20cut%20diamonds%20in%20line%20setting%20professional%20jewelry%20photography%20clean%20white%20background%20luxury%20bridal%20jewelry&width=400&height=400&seq=catalog-bracelet-1&orientation=squarish',
-    price: 'As low as $850 per piece',
-    variants: {
-      length: ['7"', '7.5"', '8"']
-    },
-    variantLabel: 'Length'
-  },
-  {
-    id: '9',
-    name: 'Halo Diamond Engagement Ring',
-    category: 'Rings',
-    image: 'https://readdy.ai/api/search-image?query=halo%20diamond%20engagement%20ring%20with%20center%20stone%20surrounded%20by%20smaller%20diamonds%20professional%20jewelry%20photography%20clean%20white%20background%20luxury%20bridal%20ring&width=400&height=400&seq=catalog-ring-2&orientation=squarish',
-    price: 'As low as $680 per piece',
-    variants: {
-      metal: ['white', 'yellow', 'pink']
-    },
-    variantLabel: 'Metal'
-  },
-  {
-    id: '10',
-    name: 'Multi-Layer Diamond Necklace',
-    category: 'Necklaces',
-    image: 'https://readdy.ai/api/search-image?query=multi%20layer%20diamond%20necklace%20with%20multiple%20strands%20of%20diamonds%20professional%20jewelry%20photography%20clean%20white%20background%20luxury%20statement%20jewelry&width=400&height=400&seq=catalog-necklace-3&orientation=squarish',
-    price: 'As low as $1,850 per piece',
-    variants: {
-      layers: ['2-Layer', '3-Layer', '4-Layer']
-    },
-    variantLabel: 'Layers'
-  },
-  {
-    id: '11',
-    name: 'Tennis Diamond Necklace',
-    category: 'Necklaces',
-    image: 'https://readdy.ai/api/search-image?query=tennis%20diamond%20necklace%20with%20brilliant%20cut%20diamonds%20in%20line%20setting%20professional%20jewelry%20photography%20clean%20white%20background%20luxury%20bridal%20jewelry&width=400&height=400&seq=catalog-necklace-1&orientation=squarish',
-    price: 'As low as $1,200 per piece',
-    variants: {
-      length: ['16"', '18"', '20"']
-    },
-    variantLabel: 'Length'
-  },
-  {
-    id: '12',
-    name: 'Three Stone Diamond Ring',
-    category: 'Rings',
-    image: 'https://readdy.ai/api/search-image?query=three%20stone%20diamond%20ring%20with%20center%20diamond%20and%20two%20side%20stones%20professional%20jewelry%20photography%20clean%20white%20background%20luxury%20engagement%20ring&width=400&height=400&seq=catalog-ring-3&orientation=squarish',
-    price: 'As low as $820 per piece',
-    variants: {
-      metal: ['white', 'yellow', 'pink']
-    },
-    variantLabel: 'Metal'
-  }
-];
+// Transform shared products to catalog format
+const transformProductToCatalog = (product: Product) => ({
+  id: product.id,
+  name: product.name,
+  category: product.category,
+  image: product.image,
+  price: `As low as $${product.lowestPrice} per piece`,
+  variants: product.variants,
+  variantLabel: Object.keys(product.variants)[0] === 'metal' ? 'Metal' :
+                Object.keys(product.variants)[0] === 'size' ? 'Size' :
+                Object.keys(product.variants)[0] === 'length' ? 'Length' :
+                Object.keys(product.variants)[0] === 'stone' ? 'Stone' :
+                Object.keys(product.variants)[0] === 'cut' ? 'Cut' :
+                'Options'
+});
 
 const getMetalButtonStyle = (metal: string, isSelected: boolean) => {
   const baseClasses = "appearance-button h-6 w-6 rounded-full border-2 border-gray-300 cursor-pointer transition-colors";
