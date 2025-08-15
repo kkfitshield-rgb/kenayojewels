@@ -35,6 +35,46 @@ export default function Catalog() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({});
   const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
+  const [products, setProducts] = useState<Product[]>(sampleProducts);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Fetch products when category changes
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      try {
+        const params = new URLSearchParams();
+        if (selectedCategory !== 'All') {
+          params.append('category', selectedCategory);
+        }
+        if (searchTerm) {
+          params.append('search', searchTerm);
+        }
+        if (sortBy) {
+          params.append('sortBy', sortBy);
+        }
+
+        const response = await fetch(`/api/products?${params.toString()}`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success) {
+            setProducts(data.products);
+          }
+        } else {
+          // Fallback to local data if API fails
+          setProducts(sampleProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        // Fallback to local data
+        setProducts(sampleProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [selectedCategory, searchTerm, sortBy]);
 
   const filteredAndSortedProducts = useMemo(() => {
     let filtered = sampleProducts.filter(product => {
