@@ -158,70 +158,100 @@ export default function Catalog() {
         </div>
       </section>
 
-      {/* Category Filters */}
-      <section className="bg-gray-50 border-b border-gray-200 py-8">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between gap-4">
-            {/* Category Filter Buttons */}
-            <div className="flex flex-wrap gap-2">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                    selectedCategory === category
-                      ? 'bg-slate-800 text-white'
-                      : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-              <button
-                onClick={() => setSelectedCategory('Custom')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  selectedCategory === 'Custom'
-                    ? 'bg-slate-800 text-white'
-                    : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                Custom
-              </button>
+      {/* Main Content with Sidebar Layout */}
+      <section className="bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex gap-8">
+            {/* Left Sidebar - Category Filters */}
+            <div className="w-80 flex-shrink-0 bg-gray-50 border-r border-gray-200 min-h-screen p-6">
+              <div className="sticky top-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-6">Categories</h3>
+
+                {/* Category Filter List */}
+                <div className="space-y-2">
+                  {categories.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() => setSelectedCategory(category)}
+                      className={`w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors ${
+                        selectedCategory === category
+                          ? 'bg-slate-800 text-white'
+                          : 'text-gray-700 hover:bg-gray-100'
+                      }`}
+                    >
+                      {category}
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => setSelectedCategory('Custom')}
+                    className={`w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors ${
+                      selectedCategory === 'Custom'
+                        ? 'bg-slate-800 text-white'
+                        : 'text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    Custom
+                  </button>
+                </div>
+
+                {/* Search Filter */}
+                <div className="mt-8">
+                  <h4 className="text-md font-medium text-gray-900 mb-4">Search</h4>
+                  <Input
+                    type="text"
+                    placeholder="Search products..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full"
+                  />
+                </div>
+              </div>
             </div>
 
-            {/* Product Count and Sort */}
-            <div className="flex items-center gap-4">
-              <span className="text-gray-600 text-sm">
-                {filteredAndSortedProducts.length} products
-              </span>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="bg-white border border-gray-300 rounded-md px-3 py-2 pr-8 text-sm"
-              >
-                <option value="featured">Sort by Featured</option>
-                <option value="name">Sort by Name</option>
-                <option value="price-low">Sort by Price: Low to High</option>
-                <option value="price-high">Sort by Price: High to Low</option>
-              </select>
+            {/* Right Content Area */}
+            <div className="flex-1 min-w-0">
+              {/* Top Bar with Sort and Product Count */}
+              <div className="flex items-center justify-between py-6 border-b border-gray-200">
+                <div className="flex items-center gap-4">
+                  <h2 className="text-xl font-semibold text-gray-900">
+                    {selectedCategory === 'All' ? 'All Products' : selectedCategory}
+                  </h2>
+                  <span className="text-gray-600 text-sm">
+                    {filteredAndSortedProducts.length} products
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="bg-white border border-gray-300 rounded-md px-3 py-2 pr-8 text-sm"
+                  >
+                    <option value="featured">Sort by Featured</option>
+                    <option value="name">Sort by Name</option>
+                    <option value="price-low">Sort by Price: Low to High</option>
+                    <option value="price-high">Sort by Price: High to Low</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Product Grid */}
+              <div className="py-8">
+                {isLoading ? (
+                  <div className="text-center py-12">
+                    <div className="text-gray-600">Loading products...</div>
+                  </div>
+                ) : (
+                  <CatalogProductGrid
+                    selectedCategory={selectedCategory}
+                    products={filteredAndSortedProducts}
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Catalog Product Grid */}
-      {isLoading ? (
-        <section className="bg-white py-12">
-          <div className="max-w-6xl mx-auto px-4 text-center">
-            <div className="text-gray-600">Loading products...</div>
-          </div>
-        </section>
-      ) : (
-        <CatalogProductGrid
-          selectedCategory={selectedCategory}
-          products={filteredAndSortedProducts}
-        />
-      )}
 
       {/* Wholesale Information */}
       <WholesaleInfo />
