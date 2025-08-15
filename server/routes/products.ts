@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
-import { jewelryCategories, getCategoryById } from "@shared/categories";
-import { sampleProducts, Product } from "@shared/products";
+import { jewelryCategories, getCategoryById } from "../../shared/categories";
+import { sampleProducts, Product } from "../../shared/products";
 
 export const handleGetCategories: RequestHandler = (req, res) => {
   try {
