@@ -315,9 +315,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* API Test Component for debugging */}
-      <ApiTest />
-
       {/* Inquiry Modal */}
       <InquiryModal
         isOpen={isInquiryModalOpen}
