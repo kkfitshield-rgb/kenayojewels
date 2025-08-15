@@ -117,8 +117,8 @@ export default function InquiryModal({
             {product ? 'Product Inquiry' : 'General Inquiry'}
           </DialogTitle>
           <DialogDescription>
-            {product 
-              ? `Get a quote for ${product.name}. Fill out the form below and we'll get back to you with pricing and availability.`
+            {product
+              ? `Get a quote for ${product.name}. Fill out the form below and we'll get back to you with details and availability.`
               : 'Send us your inquiry and we\'ll get back to you within 24 hours.'
             }
           </DialogDescription>
