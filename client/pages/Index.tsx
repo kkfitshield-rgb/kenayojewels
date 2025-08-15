@@ -10,6 +10,10 @@ import { jewelryCategories } from '@shared/categories';
 import { sampleProducts, Product } from '@shared/products';
 
 export default function Index() {
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({});
+  const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
+
   const heroImages = [
     'https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2Ff0e262b72a0d40d6a1baf04548adaf09',
     'https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2F2551d50fb85645a9a4d6f150775f8628?format=webp&width=800',
@@ -26,6 +30,12 @@ export default function Index() {
 
   // Get featured products
   const featuredProducts = sampleProducts.filter(product => product.featured);
+
+  const handleInquiry = (product: Product) => {
+    setSelectedProduct(product);
+    setSelectedVariants({});
+    setIsInquiryModalOpen(true);
+  };
 
   return (
     <main className="bg-background">
