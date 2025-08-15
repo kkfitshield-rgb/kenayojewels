@@ -15,7 +15,7 @@ import InquiryModal from '@/components/InquiryModal';
 import CatalogProductGrid from '@/components/CatalogProductGrid';
 import WholesaleInfo from '@/components/WholesaleInfo';
 import { jewelryCategories, getCategoryDisplayNames } from '@shared/categories';
-import { sampleProducts } from '@shared/products';
+import { sampleProducts, Product } from '@shared/products';
 
 // Use shared categories data
 const categories = getCategoryDisplayNames();
