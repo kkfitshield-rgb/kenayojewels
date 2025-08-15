@@ -11,7 +11,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center mb-4">
               <img
-                src="https://cdn.builder.io/api/v1/image/assets%2F6f0d9383c645489eb6c903dbc852efe9%2Fccfc48d7398540f59603391a3dfd2cd4?format=webp&width=800"
+                src="https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2F098deeebb10540e9b4b58bfbd28f50e6"
                 alt="Kenayo Jewels"
                 className="h-10 w-auto"
               />
