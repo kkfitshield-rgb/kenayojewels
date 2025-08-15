@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import InquiryModal from './InquiryModal';
+import { sampleProducts, Product } from '@shared/products';
+import { jewelryCategories } from '@shared/categories';
 
 interface CatalogProduct {
   id: string;
