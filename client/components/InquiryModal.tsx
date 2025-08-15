@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Product } from './ProductCard';
+import { Product } from '@shared/products';
 import { useToast } from '@/hooks/use-toast';
 
 interface InquiryModalProps {
