@@ -96,7 +96,10 @@ export default function HorizontalCategoriesCarousel({
               className="flex-shrink-0 px-3"
               style={{ width: `${100 / categories.length}%` }}
             >
-              <div className="text-center cursor-pointer group">
+              <div
+                className="text-center cursor-pointer group"
+                onClick={category.onClick}
+              >
                 <div className="aspect-square bg-white border border-gray-200 rounded-lg mb-4 overflow-hidden transition-all duration-300 group-hover:shadow-lg group-hover:border-gray-300">
                   <img
                     src={category.imageUrl}
