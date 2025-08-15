@@ -160,7 +160,18 @@ export default function Catalog() {
       </section>
 
       {/* Catalog Product Grid */}
-      <CatalogProductGrid />
+      {isLoading ? (
+        <section className="bg-white py-12">
+          <div className="max-w-6xl mx-auto px-4 text-center">
+            <div className="text-gray-600">Loading products...</div>
+          </div>
+        </section>
+      ) : (
+        <CatalogProductGrid
+          selectedCategory={selectedCategory}
+          products={filteredAndSortedProducts}
+        />
+      )}
 
       {/* Wholesale Information */}
       <WholesaleInfo />
