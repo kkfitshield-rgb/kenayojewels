@@ -4,6 +4,12 @@ import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { handleInquiry } from "./routes/inquiry";
 import { handlePlaceholder } from "./routes/placeholder";
+import {
+  handleGetCategories,
+  handleGetProducts,
+  handleGetProductsByCategory,
+  handleGetProduct
+} from "./routes/products";
 
 export function createServer() {
   const app = express();
