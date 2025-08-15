@@ -143,9 +143,6 @@ export default function Index() {
                   <h3 className="font-semibold text-gray-900 mb-2 min-h-12 line-clamp-2">
                     {product.name}
                   </h3>
-                  <p className="text-slate-800 text-lg font-bold mb-3">
-                    As low as ${product.lowestPrice} per piece
-                  </p>
                   <div className="mb-4">
                     <div className="flex items-center">
                       <span className="text-gray-600 text-sm min-w-15">
@@ -180,11 +177,12 @@ export default function Index() {
                       </div>
                     </div>
                   </div>
-                  <Link to="/catalog">
-                    <button className="w-full bg-slate-800 text-white py-2 rounded-md font-medium transition-colors hover:bg-slate-700">
-                      Inquiry
-                    </button>
-                  </Link>
+                  <button
+                    onClick={() => handleInquiry(product)}
+                    className="w-full bg-slate-800 text-white py-2 rounded-md font-medium transition-colors hover:bg-slate-700"
+                  >
+                    Inquiry
+                  </button>
                 </div>
               </div>
             ))}
