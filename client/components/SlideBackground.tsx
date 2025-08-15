@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 interface SlideBackgroundProps {
   images: string[];
@@ -6,10 +6,10 @@ interface SlideBackgroundProps {
   className?: string;
 }
 
-export default function SlideBackground({ 
-  images, 
-  interval = 5000, 
-  className = "" 
+export default function SlideBackground({
+  images,
+  interval = 5000,
+  className = "",
 }: SlideBackgroundProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -17,8 +17,8 @@ export default function SlideBackground({
     if (images.length <= 1) return;
 
     const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => 
-        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      setCurrentIndex((prevIndex) =>
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1,
       );
     }, interval);
 
@@ -34,7 +34,7 @@ export default function SlideBackground({
           style={{
             backgroundImage: `url('${image}')`,
             transform: `translateX(${(index - currentIndex) * 100}%)`,
-            backgroundRepeat: 'no-repeat',
+            backgroundRepeat: "no-repeat",
           }}
         />
       ))}

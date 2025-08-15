@@ -33,6 +33,7 @@ OWNER_EMAIL=owner@kenayojewels.com
 ```
 
 **Using DevServerControl (in this environment):**
+
 ```bash
 # Set Gmail account
 GMAIL_USER="your.business@gmail.com"
@@ -47,6 +48,7 @@ OWNER_EMAIL="owner@kenayojewels.com"
 ### Step 3: Test Email Configuration
 
 Visit the test endpoint to verify setup:
+
 ```
 GET http://localhost:8080/api/email-test
 ```
@@ -54,7 +56,9 @@ GET http://localhost:8080/api/email-test
 ## 📝 How It Works
 
 ### 1. Customer Submits Inquiry
+
 When a customer clicks "Inquiry" on any jewelry design, they fill out a form with:
+
 - Personal information (name, company, email, phone)
 - Order details (quantity, urgency)
 - Custom message
@@ -62,7 +66,9 @@ When a customer clicks "Inquiry" on any jewelry design, they fill out a form wit
 - Selected variants (metal, size, etc.)
 
 ### 2. Automatic Email Processing
+
 The system automatically:
+
 - ✅ Validates the inquiry data
 - ✅ Sends notification email to owner
 - ✅ Sends confirmation email to customer
@@ -70,7 +76,9 @@ The system automatically:
 - ✅ Returns success/error response
 
 ### 3. Owner Notification Email
+
 The owner receives a professionally formatted email containing:
+
 - **Customer Information**: Name, company, email, phone
 - **Product Details**: Name, category, ID, selected variants
 - **Order Information**: Quantity, urgency level
@@ -78,7 +86,9 @@ The owner receives a professionally formatted email containing:
 - **Reply-To Setup**: Owner can reply directly to customer
 
 ### 4. Customer Confirmation Email
+
 The customer receives a confirmation email with:
+
 - Thank you message
 - Inquiry details
 - Next steps information
@@ -87,9 +97,11 @@ The customer receives a confirmation email with:
 ## 🔧 API Endpoints
 
 ### POST /api/inquiry
+
 Handles inquiry form submissions with automatic email notifications.
 
 **Request Body:**
+
 ```json
 {
   "name": "John Doe",
@@ -114,6 +126,7 @@ Handles inquiry form submissions with automatic email notifications.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -127,6 +140,7 @@ Handles inquiry form submissions with automatic email notifications.
 ```
 
 ### GET /api/email-test
+
 Tests email configuration and sends a test email.
 
 ## 🛡️ Security Features
@@ -140,6 +154,7 @@ Tests email configuration and sends a test email.
 ## 🎨 Email Templates
 
 ### Owner Notification Email Features:
+
 - **Professional Header**: Kenayo Jewels branding
 - **Customer Section**: Complete contact information
 - **Product Section**: Detailed product info with variants
@@ -148,6 +163,7 @@ Tests email configuration and sends a test email.
 - **Action Footer**: Response time reminder
 
 ### Customer Confirmation Email Features:
+
 - **Branded Header**: Professional welcome message
 - **Confirmation Details**: What they inquired about
 - **Next Steps**: Clear expectations
@@ -173,6 +189,7 @@ Tests email configuration and sends a test email.
    - Ensure product data structure is correct
 
 ### Debug Steps:
+
 1. Test email configuration: `GET /api/email-test`
 2. Check server logs for detailed error messages
 3. Verify environment variables are set correctly
@@ -200,6 +217,7 @@ client/
 ## 🎯 Production Deployment
 
 ### Environment Variables for Production:
+
 ```bash
 # Production Gmail account
 GMAIL_USER=notifications@kenayojewels.com
@@ -212,6 +230,7 @@ EMAIL_REPLY_TO=support@kenayojewels.com
 ```
 
 ### Production Considerations:
+
 - Use a dedicated business Gmail account
 - Set up email monitoring/logging
 - Consider email rate limiting for high volume
@@ -233,6 +252,7 @@ EMAIL_REPLY_TO=support@kenayojewels.com
 ## 📞 Support
 
 If you need assistance with email setup:
+
 1. Check the troubleshooting section above
 2. Verify your Gmail configuration
 3. Test with the provided endpoints

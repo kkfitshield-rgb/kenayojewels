@@ -10,8 +10,10 @@ export function suppressResizeObserverError() {
   console.error = (...args: any[]) => {
     const message = args[0];
     if (
-      typeof message === 'string' &&
-      message.includes('ResizeObserver loop completed with undelivered notifications')
+      typeof message === "string" &&
+      message.includes(
+        "ResizeObserver loop completed with undelivered notifications",
+      )
     ) {
       // Suppress this specific error
       return;
@@ -24,8 +26,10 @@ export function suppressResizeObserverError() {
   const originalErrorHandler = window.onerror;
   window.onerror = (message, source, lineno, colno, error) => {
     if (
-      typeof message === 'string' &&
-      message.includes('ResizeObserver loop completed with undelivered notifications')
+      typeof message === "string" &&
+      message.includes(
+        "ResizeObserver loop completed with undelivered notifications",
+      )
     ) {
       // Suppress this specific error
       return true;

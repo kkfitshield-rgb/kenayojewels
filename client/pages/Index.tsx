@@ -1,34 +1,45 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
-import { Award, Users, Gem, Shield, Truck, Clock, Settings, HeadphonesIcon } from 'lucide-react';
-import SlideBackground from '@/components/SlideBackground';
-import HorizontalCategoriesCarousel from '@/components/HorizontalCategoriesCarousel';
-import InquiryModal from '@/components/InquiryModal';
-import { jewelryCategories } from '@shared/categories';
-import { sampleProducts, Product } from '@shared/products';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import {
+  Award,
+  Users,
+  Gem,
+  Shield,
+  Truck,
+  Clock,
+  Settings,
+  HeadphonesIcon,
+} from "lucide-react";
+import SlideBackground from "@/components/SlideBackground";
+import HorizontalCategoriesCarousel from "@/components/HorizontalCategoriesCarousel";
+import InquiryModal from "@/components/InquiryModal";
+import { jewelryCategories } from "@shared/categories";
+import { sampleProducts, Product } from "@shared/products";
 
 export default function Index() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({});
+  const [selectedVariants, setSelectedVariants] = useState<
+    Record<string, string>
+  >({});
   const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
 
   const heroImages = [
-    'https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2Ff0e262b72a0d40d6a1baf04548adaf09',
-    'https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2F2551d50fb85645a9a4d6f150775f8628?format=webp&width=800',
-    'https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2Fb05a327fbe534d37a625c38cc77b8902?format=webp&width=800',
-    'https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2F3a110020445f451495ffaf0e7209a7b9?format=webp&width=800'
+    "https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2Ff0e262b72a0d40d6a1baf04548adaf09",
+    "https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2F2551d50fb85645a9a4d6f150775f8628?format=webp&width=800",
+    "https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2Fb05a327fbe534d37a625c38cc77b8902?format=webp&width=800",
+    "https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2F3a110020445f451495ffaf0e7209a7b9?format=webp&width=800",
   ];
 
   // Use shared categories data
-  const categories = jewelryCategories.map(cat => ({
+  const categories = jewelryCategories.map((cat) => ({
     name: cat.name,
     imageUrl: cat.imageUrl,
-    designCount: cat.designCount
+    designCount: cat.designCount,
   }));
 
   // Get featured products
-  const featuredProducts = sampleProducts.filter(product => product.featured);
+  const featuredProducts = sampleProducts.filter((product) => product.featured);
 
   const handleInquiry = (product: Product) => {
     setSelectedProduct(product);
@@ -51,7 +62,10 @@ export default function Index() {
           <div className="max-w-4xl">
             <div className="text-left">
               <h1 className="text-6xl lg:text-8xl font-bold mb-6 text-white">
-                <span className="font-script text-8xl lg:text-9xl font-bold text-white block mb-4" style={{ fontFamily: 'Pacifico, cursive' }}>
+                <span
+                  className="font-script text-8xl lg:text-9xl font-bold text-white block mb-4"
+                  style={{ fontFamily: "Pacifico, cursive" }}
+                >
                   Kenayo
                 </span>
                 <span className="text-4xl lg:text-5xl font-light text-white">
@@ -65,7 +79,8 @@ export default function Index() {
 
               <p className="text-lg text-gray-400 leading-7 mb-8 max-w-2xl">
                 Professional B2B jewelry solutions for retailers worldwide. From
-                custom designs to bulk orders, we craft excellence in every piece.
+                custom designs to bulk orders, we craft excellence in every
+                piece.
               </p>
 
               <div className="flex gap-4 text-left">
@@ -93,17 +108,18 @@ export default function Index() {
               Our Categories
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Discover our comprehensive collection of fine jewelry designed for B2B partners
+              Discover our comprehensive collection of fine jewelry designed for
+              B2B partners
             </p>
           </div>
 
           <HorizontalCategoriesCarousel
-            categories={categories.map(cat => ({
+            categories={categories.map((cat) => ({
               ...cat,
               onClick: () => {
                 // Navigate to catalog with category filter
                 window.location.href = `/catalog?category=${encodeURIComponent(cat.name)}`;
-              }
+              },
             }))}
             autoSlide={true}
             slideInterval={4000}
@@ -125,7 +141,10 @@ export default function Index() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {featuredProducts.map((product) => (
-              <div key={product.id} className="bg-white border border-gray-200 rounded-lg overflow-hidden transition-shadow duration-300 hover:shadow-lg">
+              <div
+                key={product.id}
+                className="bg-white border border-gray-200 rounded-lg overflow-hidden transition-shadow duration-300 hover:shadow-lg"
+              >
                 <div className="aspect-square relative overflow-hidden cursor-pointer">
                   <img
                     src={product.image}
@@ -145,34 +164,44 @@ export default function Index() {
                   <div className="mb-4">
                     <div className="flex items-center">
                       <span className="text-gray-600 text-sm min-w-15">
-                        {Object.keys(product.variants)[0] === 'metal' ? 'Metal:' :
-                         Object.keys(product.variants)[0] === 'size' ? 'Size:' :
-                         Object.keys(product.variants)[0] === 'length' ? 'Length:' :
-                         Object.keys(product.variants)[0] === 'stone' ? 'Stone:' :
-                         'Options:'}
+                        {Object.keys(product.variants)[0] === "metal"
+                          ? "Metal:"
+                          : Object.keys(product.variants)[0] === "size"
+                            ? "Size:"
+                            : Object.keys(product.variants)[0] === "length"
+                              ? "Length:"
+                              : Object.keys(product.variants)[0] === "stone"
+                                ? "Stone:"
+                                : "Options:"}
                       </span>
                       <div className="flex ml-2">
-                        {product.variants[Object.keys(product.variants)[0]]?.slice(0, 3).map((variant, index) => (
-                          Object.keys(product.variants)[0] === 'metal' ? (
-                            <button
-                              key={variant}
-                              className={`w-6 h-6 border-2 border-gray-300 rounded-full ${index > 0 ? 'ml-1' : ''} ${
-                                variant.toLowerCase().includes('white') ? 'bg-white' :
-                                variant.toLowerCase().includes('yellow') ? 'bg-yellow-400' :
-                                variant.toLowerCase().includes('rose') ? 'bg-pink-400' : 'bg-gray-300'
-                              }`}
-                              title={variant}
-                            />
-                          ) : (
-                            <button
-                              key={variant}
-                              className={`w-auto h-6 px-2 bg-gray-300 border-2 border-gray-300 rounded-full text-xs ${index > 0 ? 'ml-1' : ''}`}
-                              title={variant}
-                            >
-                              {variant}
-                            </button>
-                          )
-                        ))}
+                        {product.variants[Object.keys(product.variants)[0]]
+                          ?.slice(0, 3)
+                          .map((variant, index) =>
+                            Object.keys(product.variants)[0] === "metal" ? (
+                              <button
+                                key={variant}
+                                className={`w-6 h-6 border-2 border-gray-300 rounded-full ${index > 0 ? "ml-1" : ""} ${
+                                  variant.toLowerCase().includes("white")
+                                    ? "bg-white"
+                                    : variant.toLowerCase().includes("yellow")
+                                      ? "bg-yellow-400"
+                                      : variant.toLowerCase().includes("rose")
+                                        ? "bg-pink-400"
+                                        : "bg-gray-300"
+                                }`}
+                                title={variant}
+                              />
+                            ) : (
+                              <button
+                                key={variant}
+                                className={`w-auto h-6 px-2 bg-gray-300 border-2 border-gray-300 rounded-full text-xs ${index > 0 ? "ml-1" : ""}`}
+                                title={variant}
+                              >
+                                {variant}
+                              </button>
+                            ),
+                          )}
                       </div>
                     </div>
                   </div>
@@ -219,7 +248,8 @@ export default function Index() {
                 Custom Manufacturing
               </h3>
               <p className="text-gray-600 text-sm leading-5">
-                Tailor-made designs to match your brand requirements with flexible MOQ options
+                Tailor-made designs to match your brand requirements with
+                flexible MOQ options
               </p>
             </div>
 
@@ -245,7 +275,8 @@ export default function Index() {
                 Global Shipping
               </h3>
               <p className="text-gray-600 text-sm leading-5">
-                Worldwide delivery with secure packaging and comprehensive insurance
+                Worldwide delivery with secure packaging and comprehensive
+                insurance
               </p>
             </div>
 
@@ -258,7 +289,8 @@ export default function Index() {
                 Quality Certified
               </h3>
               <p className="text-gray-600 text-sm leading-5">
-                All products come with authenticity certificates and quality guarantees
+                All products come with authenticity certificates and quality
+                guarantees
               </p>
             </div>
 
@@ -271,7 +303,8 @@ export default function Index() {
                 Dedicated Support
               </h3>
               <p className="text-gray-600 text-sm leading-5">
-                24/7 customer service with dedicated account managers for B2B clients
+                24/7 customer service with dedicated account managers for B2B
+                clients
               </p>
             </div>
 
@@ -307,9 +340,7 @@ export default function Index() {
               </Button>
             </Link>
             <Link to="/contact">
-              <Button variant="white">
-                Get Quote
-              </Button>
+              <Button variant="white">Get Quote</Button>
             </Link>
           </div>
         </div>

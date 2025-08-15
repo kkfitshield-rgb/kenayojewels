@@ -8,7 +8,7 @@ import {
   handleGetCategories,
   handleGetProducts,
   handleGetProductsByCategory,
-  handleGetProduct
+  handleGetProduct,
 } from "./routes/products";
 import { handleEmailTest } from "./routes/emailTest";
 

@@ -79,9 +79,11 @@
 ## 🎯 **API Endpoints**
 
 ### `POST /api/inquiry`
+
 **Purpose**: Handle jewelry inquiry form submissions with automatic email notifications
 
 **Features**:
+
 - Validates inquiry data
 - Sends owner notification email
 - Sends customer confirmation email
@@ -89,6 +91,7 @@
 - Graceful error handling
 
 **Sample Response**:
+
 ```json
 {
   "success": true,
@@ -102,9 +105,11 @@
 ```
 
 ### `GET /api/email-test`
+
 **Purpose**: Test email configuration and send sample notification
 
 **Features**:
+
 - Tests SMTP connection
 - Validates environment variables
 - Sends test email to owner
@@ -114,7 +119,7 @@
 
 1. **Customer Action**: Customer clicks "Inquiry" on any jewelry design
 2. **Form Submission**: InquiryModal captures all details and submits to `/api/inquiry`
-3. **Backend Processing**: 
+3. **Backend Processing**:
    - Validates inquiry data
    - Generates unique inquiry ID
    - Attempts to send owner notification email
@@ -127,6 +132,7 @@
 ## 📧 **Email Content**
 
 ### Owner Notification Includes:
+
 - 👤 Customer contact information
 - 💎 Product details (name, category, ID)
 - ⚙️ Selected variants (metal, size, stone, etc.)
@@ -135,6 +141,7 @@
 - 📧 Reply-to customer email address
 
 ### Customer Confirmation Includes:
+
 - ✅ Thank you message with customer name
 - 💎 Product inquiry confirmation
 - 📅 Response timeline (24 hours)
@@ -143,6 +150,7 @@
 ## 🛠 **Setup Requirements**
 
 ### For Development:
+
 1. Gmail account with 2FA enabled
 2. Gmail app password generated
 3. Environment variables configured:
@@ -153,6 +161,7 @@
    ```
 
 ### For Production:
+
 1. Business Gmail account
 2. Production app password
 3. Production environment variables
@@ -171,9 +180,10 @@
 
 ## ✅ **Ready for Use**
 
-The email notification system is **fully implemented and ready to use**! 
+The email notification system is **fully implemented and ready to use**!
 
 ### To activate:
+
 1. Set up Gmail app password
 2. Configure environment variables
 3. Restart development server
@@ -181,6 +191,7 @@ The email notification system is **fully implemented and ready to use**!
 5. Submit inquiry through the website
 
 ### Benefits:
+
 - 🚀 **Instant Notifications**: Owner gets immediate email alerts
 - 💼 **Professional Communication**: Branded, formatted emails
 - 🔒 **Secure**: Uses Gmail's secure SMTP with app passwords

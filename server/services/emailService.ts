@@ -1,5 +1,5 @@
-import nodemailer from 'nodemailer';
-import { z } from 'zod';
+import nodemailer from "nodemailer";
+import { z } from "zod";
 
 // Validation schema for inquiry data
 const InquirySchema = z.object({
@@ -10,14 +10,16 @@ const InquirySchema = z.object({
   quantity: z.string().optional(),
   urgency: z.string().optional(),
   message: z.string().optional(),
-  product: z.object({
-    id: z.string(),
-    name: z.string(),
-    category: z.string(),
-    selectedVariants: z.record(z.string())
-  }).optional(),
+  product: z
+    .object({
+      id: z.string(),
+      name: z.string(),
+      category: z.string(),
+      selectedVariants: z.record(z.string()),
+    })
+    .optional(),
   timestamp: z.string(),
-  type: z.enum(["product", "general"])
+  type: z.enum(["product", "general"]),
 });
 
 type InquiryData = z.infer<typeof InquirySchema>;
@@ -45,10 +47,12 @@ class EmailService {
       const ownerEmail = "kishankachhadiya42@gmail.com";
 
       if (!gmailUser || !gmailPass || !ownerEmail) {
-        console.warn('Email service not configured. Missing environment variables:');
-        if (!gmailUser) console.warn('- GMAIL_USER is not set');
-        if (!gmailPass) console.warn('- GMAIL_PASS is not set');
-        if (!ownerEmail) console.warn('- OWNER_EMAIL is not set');
+        console.warn(
+          "Email service not configured. Missing environment variables:",
+        );
+        if (!gmailUser) console.warn("- GMAIL_USER is not set");
+        if (!gmailPass) console.warn("- GMAIL_PASS is not set");
+        if (!ownerEmail) console.warn("- OWNER_EMAIL is not set");
         return;
       }
 
@@ -56,8 +60,8 @@ class EmailService {
 
       // Create transporter with Gmail SMTP
       this.transporter = nodemailer.createTransport({
-        service: 'gmail',
-        host: 'smtp.gmail.com',
+        service: "gmail",
+        host: "smtp.gmail.com",
         port: 587,
         secure: false, // Use TLS
         auth: {
@@ -65,13 +69,13 @@ class EmailService {
           pass: gmailPass, // App password, not regular password
         },
         tls: {
-          rejectUnauthorized: false
-        }
+          rejectUnauthorized: false,
+        },
       });
 
-      console.log('Email service initialized successfully');
+      console.log("Email service initialized successfully");
     } catch (error) {
-      console.error('Failed to initialize email service:', error);
+      console.error("Failed to initialize email service:", error);
     }
   }
 
@@ -80,7 +84,7 @@ class EmailService {
    */
   async sendInquiryNotification(inquiry: InquiryData): Promise<boolean> {
     if (!this.transporter || !this.config) {
-      console.warn('Email service not configured. Inquiry email not sent.');
+      console.warn("Email service not configured. Inquiry email not sent.");
       return false;
     }
 
@@ -91,22 +95,24 @@ class EmailService {
 
       const mailOptions = {
         from: {
-          name: 'Kenayo Jewels Website',
-          address: this.config.gmailUser
+          name: "Kenayo Jewels Website",
+          address: this.config.gmailUser,
         },
         to: this.config.ownerEmail,
         subject: subject,
         text: textContent,
         html: htmlContent,
-        replyTo: inquiry.email // Allow owner to reply directly to customer
+        replyTo: inquiry.email, // Allow owner to reply directly to customer
       };
 
       const result = await this.transporter.sendMail(mailOptions);
-      console.log('Inquiry notification email sent successfully:', result.messageId);
+      console.log(
+        "Inquiry notification email sent successfully:",
+        result.messageId,
+      );
       return true;
-
     } catch (error) {
-      console.error('Failed to send inquiry notification email:', error);
+      console.error("Failed to send inquiry notification email:", error);
       return false;
     }
   }
@@ -116,32 +122,36 @@ class EmailService {
    */
   async sendCustomerConfirmation(inquiry: InquiryData): Promise<boolean> {
     if (!this.transporter || !this.config) {
-      console.warn('Email service not configured. Confirmation email not sent.');
+      console.warn(
+        "Email service not configured. Confirmation email not sent.",
+      );
       return false;
     }
 
     try {
-      const subject = 'Thank you for your inquiry - Kenayo Jewels';
+      const subject = "Thank you for your inquiry - Kenayo Jewels";
       const htmlContent = this.generateCustomerConfirmationHtml(inquiry);
       const textContent = this.generateCustomerConfirmationText(inquiry);
 
       const mailOptions = {
         from: {
-          name: 'Kenayo Jewels',
-          address: this.config.gmailUser
+          name: "Kenayo Jewels",
+          address: this.config.gmailUser,
         },
         to: inquiry.email,
         subject: subject,
         text: textContent,
-        html: htmlContent
+        html: htmlContent,
       };
 
       const result = await this.transporter.sendMail(mailOptions);
-      console.log('Customer confirmation email sent successfully:', result.messageId);
+      console.log(
+        "Customer confirmation email sent successfully:",
+        result.messageId,
+      );
       return true;
-
     } catch (error) {
-      console.error('Failed to send customer confirmation email:', error);
+      console.error("Failed to send customer confirmation email:", error);
       return false;
     }
   }
@@ -151,22 +161,22 @@ class EmailService {
    */
   async testConnection(): Promise<boolean> {
     if (!this.transporter) {
-      console.error('Email transporter not initialized');
+      console.error("Email transporter not initialized");
       return false;
     }
 
     try {
       await this.transporter.verify();
-      console.log('Email connection test successful');
+      console.log("Email connection test successful");
       return true;
     } catch (error) {
-      console.error('Email connection test failed:', error);
+      console.error("Email connection test failed:", error);
       return false;
     }
   }
 
   private generateSubject(inquiry: InquiryData): string {
-    if (inquiry.type === 'product' && inquiry.product) {
+    if (inquiry.type === "product" && inquiry.product) {
       return `🔔 New Product Inquiry: ${inquiry.product.name} - ${inquiry.name}`;
     }
     return `🔔 New General Inquiry - ${inquiry.name} from ${inquiry.company}`;
@@ -174,7 +184,7 @@ class EmailService {
 
   private generateHtmlContent(inquiry: InquiryData): string {
     const timestamp = new Date(inquiry.timestamp).toLocaleString();
-    
+
     return `
 <!DOCTYPE html>
 <html>
@@ -207,40 +217,55 @@ class EmailService {
             <p><span class="label">Name:</span><span class="value">${inquiry.name}</span></p>
             <p><span class="label">Company:</span><span class="value">${inquiry.company}</span></p>
             <p><span class="label">Email:</span><span class="value"><a href="mailto:${inquiry.email}">${inquiry.email}</a></span></p>
-            <p><span class="label">Phone:</span><span class="value">${inquiry.phone || 'Not provided'}</span></p>
+            <p><span class="label">Phone:</span><span class="value">${inquiry.phone || "Not provided"}</span></p>
             <p><span class="label">Submitted:</span><span class="value">${timestamp}</span></p>
         </div>
 
-        ${inquiry.type === 'product' && inquiry.product ? `
+        ${
+          inquiry.type === "product" && inquiry.product
+            ? `
         <div class="section product-info">
             <h3>💎 Product Inquiry Details</h3>
             <p><span class="label">Product:</span><span class="value">${inquiry.product.name}</span></p>
             <p><span class="label">Category:</span><span class="value">${inquiry.product.category}</span></p>
             <p><span class="label">Product ID:</span><span class="value">${inquiry.product.id}</span></p>
             
-            ${Object.keys(inquiry.product.selectedVariants).length > 0 ? `
+            ${
+              Object.keys(inquiry.product.selectedVariants).length > 0
+                ? `
             <p><span class="label">Selected Options:</span></p>
             <div class="variants">
                 ${Object.entries(inquiry.product.selectedVariants)
-                  .map(([key, value]) => `<span class="variant-tag">${key}: ${value}</span>`)
-                  .join('')}
+                  .map(
+                    ([key, value]) =>
+                      `<span class="variant-tag">${key}: ${value}</span>`,
+                  )
+                  .join("")}
             </div>
-            ` : ''}
+            `
+                : ""
+            }
         </div>
-        ` : ''}
+        `
+            : ""
+        }
 
-        <div class="section ${inquiry.urgency === 'urgent' ? 'urgent' : ''}">
+        <div class="section ${inquiry.urgency === "urgent" ? "urgent" : ""}">
             <h3>📋 Order Details</h3>
-            <p><span class="label">Quantity:</span><span class="value">${inquiry.quantity || 'Not specified'}</span></p>
-            <p><span class="label">Urgency:</span><span class="value ${inquiry.urgency === 'urgent' ? 'high-priority' : ''}">${inquiry.urgency || 'Not specified'}</span></p>
+            <p><span class="label">Quantity:</span><span class="value">${inquiry.quantity || "Not specified"}</span></p>
+            <p><span class="label">Urgency:</span><span class="value ${inquiry.urgency === "urgent" ? "high-priority" : ""}">${inquiry.urgency || "Not specified"}</span></p>
         </div>
 
-        ${inquiry.message ? `
+        ${
+          inquiry.message
+            ? `
         <div class="section">
             <h3>💬 Customer Message</h3>
             <p style="white-space: pre-wrap;">${inquiry.message}</p>
         </div>
-        ` : ''}
+        `
+            : ""
+        }
 
         <div class="footer">
             <p><strong>⏰ Response Required</strong></p>
@@ -255,7 +280,7 @@ class EmailService {
 
   private generateTextContent(inquiry: InquiryData): string {
     const timestamp = new Date(inquiry.timestamp).toLocaleString();
-    
+
     let content = `
 NEW INQUIRY - KENAYO JEWELS
 ===============================
@@ -264,12 +289,12 @@ Customer Information:
 - Name: ${inquiry.name}
 - Company: ${inquiry.company}
 - Email: ${inquiry.email}
-- Phone: ${inquiry.phone || 'Not provided'}
+- Phone: ${inquiry.phone || "Not provided"}
 - Submitted: ${timestamp}
 
 `;
 
-    if (inquiry.type === 'product' && inquiry.product) {
+    if (inquiry.type === "product" && inquiry.product) {
       content += `
 Product Inquiry Details:
 - Product: ${inquiry.product.name}
@@ -277,17 +302,19 @@ Product Inquiry Details:
 - Product ID: ${inquiry.product.id}
 
 Selected Options:
-${Object.entries(inquiry.product.selectedVariants)
-  .map(([key, value]) => `- ${key}: ${value}`)
-  .join('\n') || 'None selected'}
+${
+  Object.entries(inquiry.product.selectedVariants)
+    .map(([key, value]) => `- ${key}: ${value}`)
+    .join("\n") || "None selected"
+}
 
 `;
     }
 
     content += `
 Order Details:
-- Quantity: ${inquiry.quantity || 'Not specified'}
-- Urgency: ${inquiry.urgency || 'Not specified'}
+- Quantity: ${inquiry.quantity || "Not specified"}
+- Urgency: ${inquiry.urgency || "Not specified"}
 
 `;
 
@@ -334,9 +361,13 @@ Reply directly to this email to contact the customer.
             
             <p>Thank you for your interest in Kenayo Jewels. We have received your inquiry and our team will review it carefully.</p>
             
-            ${inquiry.type === 'product' && inquiry.product ? `
+            ${
+              inquiry.type === "product" && inquiry.product
+                ? `
             <p><strong>Product Inquiry:</strong> ${inquiry.product.name}</p>
-            ` : ''}
+            `
+                : ""
+            }
             
             <p><strong>What happens next:</strong></p>
             <ul>
@@ -366,7 +397,7 @@ Thank you, ${inquiry.name}!
 
 Your inquiry has been received and our team will review it within 24 hours.
 
-${inquiry.type === 'product' && inquiry.product ? `Product Inquiry: ${inquiry.product.name}` : ''}
+${inquiry.type === "product" && inquiry.product ? `Product Inquiry: ${inquiry.product.name}` : ""}
 
 What happens next:
 - Our team will review your inquiry within 24 hours

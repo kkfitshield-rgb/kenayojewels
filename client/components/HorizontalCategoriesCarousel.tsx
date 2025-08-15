@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Category {
   name: string;
@@ -14,10 +14,10 @@ interface HorizontalCategoriesCarouselProps {
   slideInterval?: number;
 }
 
-export default function HorizontalCategoriesCarousel({ 
-  categories, 
-  autoSlide = true, 
-  slideInterval = 3000 
+export default function HorizontalCategoriesCarousel({
+  categories,
+  autoSlide = true,
+  slideInterval = 3000,
 }: HorizontalCategoriesCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isUserInteracting, setIsUserInteracting] = useState(false);
@@ -27,30 +27,36 @@ export default function HorizontalCategoriesCarousel({
   const maxIndex = Math.max(0, categories.length - itemsPerView);
 
   useEffect(() => {
-    if (!autoSlide || isUserInteracting || categories.length <= itemsPerView) return;
+    if (!autoSlide || isUserInteracting || categories.length <= itemsPerView)
+      return;
 
     const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => 
-        prevIndex >= maxIndex ? 0 : prevIndex + 1
+      setCurrentIndex((prevIndex) =>
+        prevIndex >= maxIndex ? 0 : prevIndex + 1,
       );
     }, slideInterval);
 
     return () => clearInterval(timer);
-  }, [autoSlide, isUserInteracting, categories.length, itemsPerView, maxIndex, slideInterval]);
+  }, [
+    autoSlide,
+    isUserInteracting,
+    categories.length,
+    itemsPerView,
+    maxIndex,
+    slideInterval,
+  ]);
 
   const goToPrevious = () => {
     setIsUserInteracting(true);
-    setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? maxIndex : prevIndex - 1
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? maxIndex : prevIndex - 1,
     );
     setTimeout(() => setIsUserInteracting(false), 5000);
   };
 
   const goToNext = () => {
     setIsUserInteracting(true);
-    setCurrentIndex((prevIndex) => 
-      prevIndex >= maxIndex ? 0 : prevIndex + 1
-    );
+    setCurrentIndex((prevIndex) => (prevIndex >= maxIndex ? 0 : prevIndex + 1));
     setTimeout(() => setIsUserInteracting(false), 5000);
   };
 
@@ -77,17 +83,17 @@ export default function HorizontalCategoriesCarousel({
       )}
 
       {/* Categories Container */}
-      <div 
+      <div
         ref={containerRef}
         className="overflow-hidden"
         onMouseEnter={() => setIsUserInteracting(true)}
         onMouseLeave={() => setIsUserInteracting(false)}
       >
-        <div 
+        <div
           className="flex transition-transform duration-500 ease-in-out"
           style={{
             transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)`,
-            width: `${(categories.length / itemsPerView) * 100}%`
+            width: `${(categories.length / itemsPerView) * 100}%`,
           }}
         >
           {categories.map((category, index) => (
@@ -131,7 +137,7 @@ export default function HorizontalCategoriesCarousel({
                 setTimeout(() => setIsUserInteracting(false), 5000);
               }}
               className={`w-2 h-2 rounded-full transition-colors ${
-                index === currentIndex ? 'bg-slate-800' : 'bg-gray-300'
+                index === currentIndex ? "bg-slate-800" : "bg-gray-300"
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />

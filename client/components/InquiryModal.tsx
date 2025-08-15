@@ -1,24 +1,24 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Product } from '@shared/products';
-import { useToast } from '@/hooks/use-toast';
+} from "@/components/ui/select";
+import { Product } from "@shared/products";
+import { useToast } from "@/hooks/use-toast";
 
 interface InquiryModalProps {
   isOpen: boolean;
@@ -27,28 +27,28 @@ interface InquiryModalProps {
   selectedVariants?: Record<string, string>;
 }
 
-export default function InquiryModal({ 
-  isOpen, 
-  onClose, 
-  product, 
-  selectedVariants = {} 
+export default function InquiryModal({
+  isOpen,
+  onClose,
+  product,
+  selectedVariants = {},
 }: InquiryModalProps) {
   const [formData, setFormData] = useState({
-    name: '',
-    company: '',
-    email: '',
-    phone: '',
-    quantity: '',
-    urgency: '',
-    message: ''
+    name: "",
+    company: "",
+    email: "",
+    phone: "",
+    quantity: "",
+    urgency: "",
+    message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -59,50 +59,52 @@ export default function InquiryModal({
     try {
       const inquiryData = {
         ...formData,
-        product: product ? {
-          id: product.id,
-          name: product.name,
-          category: product.category,
-          selectedVariants
-        } : null,
+        product: product
+          ? {
+              id: product.id,
+              name: product.name,
+              category: product.category,
+              selectedVariants,
+            }
+          : null,
         timestamp: new Date().toISOString(),
-        type: product ? 'product' : 'general'
+        type: product ? "product" : "general",
       };
 
-      const response = await fetch('/api/inquiry', {
-        method: 'POST',
+      const response = await fetch("/api/inquiry", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(inquiryData),
       });
 
       if (response.ok) {
         toast({
-          title: 'Inquiry Sent Successfully',
-          description: 'We will get back to you within 24 hours.',
+          title: "Inquiry Sent Successfully",
+          description: "We will get back to you within 24 hours.",
         });
-        
+
         // Reset form
         setFormData({
-          name: '',
-          company: '',
-          email: '',
-          phone: '',
-          quantity: '',
-          urgency: '',
-          message: ''
+          name: "",
+          company: "",
+          email: "",
+          phone: "",
+          quantity: "",
+          urgency: "",
+          message: "",
         });
-        
+
         onClose();
       } else {
-        throw new Error('Failed to send inquiry');
+        throw new Error("Failed to send inquiry");
       }
     } catch (error) {
       toast({
-        title: 'Error',
-        description: 'Failed to send inquiry. Please try again.',
-        variant: 'destructive',
+        title: "Error",
+        description: "Failed to send inquiry. Please try again.",
+        variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);
@@ -114,13 +116,12 @@ export default function InquiryModal({
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-primary">
-            {product ? 'Product Inquiry' : 'General Inquiry'}
+            {product ? "Product Inquiry" : "General Inquiry"}
           </DialogTitle>
           <DialogDescription>
             {product
               ? `Get a quote for ${product.name}. Fill out the form below and we'll get back to you with details and availability.`
-              : 'Send us your inquiry and we\'ll get back to you within 24 hours.'
-            }
+              : "Send us your inquiry and we'll get back to you within 24 hours."}
           </DialogDescription>
         </DialogHeader>
 
@@ -133,11 +134,17 @@ export default function InquiryModal({
                 className="w-20 h-20 object-cover rounded-lg"
               />
               <div className="flex-1">
-                <h4 className="font-semibold text-foreground">{product.name}</h4>
-                <p className="text-sm text-muted-foreground mb-2">{product.category}</p>
+                <h4 className="font-semibold text-foreground">
+                  {product.name}
+                </h4>
+                <p className="text-sm text-muted-foreground mb-2">
+                  {product.category}
+                </p>
                 {Object.keys(selectedVariants).length > 0 && (
                   <div className="mt-2">
-                    <p className="text-xs font-medium text-muted-foreground mb-1">Selected Options:</p>
+                    <p className="text-xs font-medium text-muted-foreground mb-1">
+                      Selected Options:
+                    </p>
                     <div className="flex flex-wrap gap-1">
                       {Object.entries(selectedVariants).map(([key, value]) => (
                         <span
@@ -163,7 +170,7 @@ export default function InquiryModal({
                 id="name"
                 type="text"
                 value={formData.name}
-                onChange={(e) => handleInputChange('name', e.target.value)}
+                onChange={(e) => handleInputChange("name", e.target.value)}
                 required
                 placeholder="Your full name"
               />
@@ -174,7 +181,7 @@ export default function InquiryModal({
                 id="company"
                 type="text"
                 value={formData.company}
-                onChange={(e) => handleInputChange('company', e.target.value)}
+                onChange={(e) => handleInputChange("company", e.target.value)}
                 required
                 placeholder="Your company name"
               />
@@ -188,7 +195,7 @@ export default function InquiryModal({
                 id="email"
                 type="email"
                 value={formData.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
+                onChange={(e) => handleInputChange("email", e.target.value)}
                 required
                 placeholder="your.email@company.com"
               />
@@ -199,7 +206,7 @@ export default function InquiryModal({
                 id="phone"
                 type="tel"
                 value={formData.phone}
-                onChange={(e) => handleInputChange('phone', e.target.value)}
+                onChange={(e) => handleInputChange("phone", e.target.value)}
                 placeholder="+1 (555) 123-4567"
               />
             </div>
@@ -213,20 +220,26 @@ export default function InquiryModal({
                   id="quantity"
                   type="number"
                   value={formData.quantity}
-                  onChange={(e) => handleInputChange('quantity', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("quantity", e.target.value)
+                  }
                   placeholder="100"
                   min="1"
                 />
               </div>
               <div>
                 <Label htmlFor="urgency">Urgency</Label>
-                <Select onValueChange={(value) => handleInputChange('urgency', value)}>
+                <Select
+                  onValueChange={(value) => handleInputChange("urgency", value)}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select urgency" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="low">Low - No rush</SelectItem>
-                    <SelectItem value="medium">Medium - Within 2 weeks</SelectItem>
+                    <SelectItem value="medium">
+                      Medium - Within 2 weeks
+                    </SelectItem>
                     <SelectItem value="high">High - Within 1 week</SelectItem>
                     <SelectItem value="urgent">Urgent - ASAP</SelectItem>
                   </SelectContent>
@@ -240,10 +253,11 @@ export default function InquiryModal({
             <Textarea
               id="message"
               value={formData.message}
-              onChange={(e) => handleInputChange('message', e.target.value)}
-              placeholder={product 
-                ? "Tell us about your requirements, preferred timeline, or any specific customizations..."
-                : "How can we help you?"
+              onChange={(e) => handleInputChange("message", e.target.value)}
+              placeholder={
+                product
+                  ? "Tell us about your requirements, preferred timeline, or any specific customizations..."
+                  : "How can we help you?"
               }
               rows={4}
             />
@@ -253,12 +267,12 @@ export default function InquiryModal({
             <Button type="button" variant="outline" onClick={onClose}>
               Cancel
             </Button>
-            <Button 
-              type="submit" 
-              className="luxury-gradient text-white" 
+            <Button
+              type="submit"
+              className="luxury-gradient text-white"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Sending...' : 'Send Inquiry'}
+              {isSubmitting ? "Sending..." : "Send Inquiry"}
             </Button>
           </div>
         </form>

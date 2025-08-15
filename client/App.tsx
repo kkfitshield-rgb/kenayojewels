@@ -23,9 +23,7 @@ suppressResizeObserverError();
 const Layout = ({ children }: { children: React.ReactNode }) => (
   <div className="min-h-screen bg-background flex flex-col">
     <Header />
-    <main className="flex-1">
-      {children}
-    </main>
+    <main className="flex-1">{children}</main>
     <Footer />
   </div>
 );
@@ -37,31 +35,46 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={
-            <Layout>
-              <Index />
-            </Layout>
-          } />
-          <Route path="/catalog" element={
-            <Layout>
-              <Catalog />
-            </Layout>
-          } />
-          <Route path="/about" element={
-            <Layout>
-              <About />
-            </Layout>
-          } />
-          <Route path="/contact" element={
-            <Layout>
-              <Contact />
-            </Layout>
-          } />
-          <Route path="*" element={
-            <Layout>
-              <NotFound />
-            </Layout>
-          } />
+          <Route
+            path="/"
+            element={
+              <Layout>
+                <Index />
+              </Layout>
+            }
+          />
+          <Route
+            path="/catalog"
+            element={
+              <Layout>
+                <Catalog />
+              </Layout>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <Layout>
+                <About />
+              </Layout>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <Layout>
+                <Contact />
+              </Layout>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <Layout>
+                <NotFound />
+              </Layout>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
