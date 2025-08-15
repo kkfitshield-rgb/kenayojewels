@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { 
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -10,27 +10,7 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { Heart, Eye, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
-
-export interface Product {
-  id: string;
-  name: string;
-  category: string;
-  image: string;
-  images?: string[];
-  lowestPrice: number;
-  priceRange: {
-    min: number;
-    max: number;
-  };
-  variants: {
-    metal: string[];
-    size?: string[];
-    stone?: string[];
-  };
-  description: string;
-  minimumOrder?: number;
-  featured?: boolean;
-}
+import { Product } from '@shared/products';
 
 interface ProductCardProps {
   product: Product;
