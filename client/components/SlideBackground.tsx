@@ -34,6 +34,7 @@ export default function SlideBackground({
           style={{
             backgroundImage: `url('${image}')`,
             transform: `translateX(${(index - currentIndex) * 100}%)`,
+            backgroundRepeat: 'no-repeat',
           }}
         />
       ))}
