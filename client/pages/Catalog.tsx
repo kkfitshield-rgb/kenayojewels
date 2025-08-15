@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -14,6 +14,8 @@ import ProductCard, { Product } from '@/components/ProductCard';
 import InquiryModal from '@/components/InquiryModal';
 import CatalogProductGrid from '@/components/CatalogProductGrid';
 import WholesaleInfo from '@/components/WholesaleInfo';
+import { jewelryCategories, getCategoryDisplayNames } from '@shared/categories';
+import { sampleProducts } from '@shared/products';
 
 // Sample product data - in a real app, this would come from an API
 const sampleProducts: Product[] = [
