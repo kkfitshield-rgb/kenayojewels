@@ -1,4 +1,5 @@
 import "./global.css";
+import { suppressResizeObserverError } from "./utils/suppressResizeObserverError";
 
 import { Toaster } from "@/components/ui/toaster";
 import { createRoot } from "react-dom/client";
