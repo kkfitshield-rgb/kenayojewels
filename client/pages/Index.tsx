@@ -86,7 +86,13 @@ export default function Index() {
           </div>
 
           <HorizontalCategoriesCarousel
-            categories={categories}
+            categories={categories.map(cat => ({
+              ...cat,
+              onClick: () => {
+                // Navigate to catalog with category filter
+                window.location.href = `/catalog?category=${encodeURIComponent(cat.name)}`;
+              }
+            }))}
             autoSlide={true}
             slideInterval={4000}
           />
