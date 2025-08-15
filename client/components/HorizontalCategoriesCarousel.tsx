@@ -5,6 +5,7 @@ interface Category {
   name: string;
   imageUrl: string;
   designCount: string;
+  onClick?: () => void;
 }
 
 interface HorizontalCategoriesCarouselProps {
