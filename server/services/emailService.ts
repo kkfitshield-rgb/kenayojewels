@@ -383,4 +383,4 @@ This is an automated confirmation. Please do not reply to this email.
 
 // Export singleton instance
 export const emailService = new EmailService();
-export { InquiryData };
+export type { InquiryData };
