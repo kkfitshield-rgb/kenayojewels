@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Search, Filter, Grid, List, SlidersHorizontal } from 'lucide-react';
-import ProductCard, { Product } from '@/components/ProductCard';
+import ProductCard from '@/components/ProductCard';
 import InquiryModal from '@/components/InquiryModal';
 import CatalogProductGrid from '@/components/CatalogProductGrid';
 import WholesaleInfo from '@/components/WholesaleInfo';
