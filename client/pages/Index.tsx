@@ -318,6 +318,18 @@ export default function Index() {
 
       {/* API Test Component for debugging */}
       <ApiTest />
+
+      {/* Inquiry Modal */}
+      <InquiryModal
+        isOpen={isInquiryModalOpen}
+        onClose={() => {
+          setIsInquiryModalOpen(false);
+          setSelectedProduct(null);
+          setSelectedVariants({});
+        }}
+        product={selectedProduct || undefined}
+        selectedVariants={selectedVariants}
+      />
     </main>
   );
 }
