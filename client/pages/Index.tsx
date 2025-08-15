@@ -151,59 +151,11 @@ export default function Index() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Rings Category */}
-            <div className="text-center cursor-pointer">
-              <div className="aspect-square bg-white border border-gray-200 rounded-lg mb-4 overflow-hidden transition-shadow duration-150 hover:shadow-md">
-                <img
-                  src="https://readdy.ai/api/search-image?query=collection%20of%20various%20elegant%20diamond%20rings%20including%20solitaire%20engagement%20rings%20wedding%20bands%20and%20fashion%20rings%20professional%20jewelry%20photography%20clean%20background&width=300&height=300&seq=cat-rings&orientation=squarish"
-                  alt="Rings"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-1">Rings</h3>
-              <p className="text-gray-600 text-sm">150+ Designs</p>
-            </div>
-
-            {/* Necklaces Category */}
-            <div className="text-center cursor-pointer">
-              <div className="aspect-square bg-white border border-gray-200 rounded-lg mb-4 overflow-hidden transition-shadow duration-150 hover:shadow-md">
-                <img
-                  src="https://readdy.ai/api/search-image?query=collection%20of%20various%20elegant%20diamond%20necklaces%20including%20tennis%20necklaces%20pendants%20and%20chain%20necklaces%20professional%20jewelry%20photography%20clean%20background&width=300&height=300&seq=cat-necklaces&orientation=squarish"
-                  alt="Necklaces"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-1">Necklaces</h3>
-              <p className="text-gray-600 text-sm">120+ Designs</p>
-            </div>
-
-            {/* Earrings Category */}
-            <div className="text-center cursor-pointer">
-              <div className="aspect-square bg-white border border-gray-200 rounded-lg mb-4 overflow-hidden transition-shadow duration-150 hover:shadow-md">
-                <img
-                  src="https://readdy.ai/api/search-image?query=collection%20of%20various%20elegant%20diamond%20earrings%20including%20studs%20hoops%20and%20drop%20earrings%20professional%20jewelry%20photography%20clean%20background&width=300&height=300&seq=cat-earrings&orientation=squarish"
-                  alt="Earrings"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-1">Earrings</h3>
-              <p className="text-gray-600 text-sm">90+ Designs</p>
-            </div>
-
-            {/* Bracelets Category */}
-            <div className="text-center cursor-pointer">
-              <div className="aspect-square bg-white border border-gray-200 rounded-lg mb-4 overflow-hidden transition-shadow duration-150 hover:shadow-md">
-                <img
-                  src="https://readdy.ai/api/search-image?query=collection%20of%20various%20elegant%20diamond%20bracelets%20including%20tennis%20bracelets%20bangles%20and%20chain%20bracelets%20professional%20jewelry%20photography%20clean%20background&width=300&height=300&seq=cat-bracelets&orientation=squarish"
-                  alt="Bracelets"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-1">Bracelets</h3>
-              <p className="text-gray-600 text-sm">80+ Designs</p>
-            </div>
-          </div>
+          <HorizontalCategoriesCarousel
+            categories={categories}
+            autoSlide={true}
+            slideInterval={4000}
+          />
         </div>
       </section>
 
