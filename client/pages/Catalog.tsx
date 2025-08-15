@@ -60,19 +60,64 @@ export default function Catalog() {
         }
 
         const response = await fetch(`/api/products?${params.toString()}`);
+
         if (response.ok) {
-          const data = await response.json();
-          if (data.success) {
-            setProducts(data.products);
+          const text = await response.text();
+
+          // Check if response is JSON
+          if (text.startsWith('{') || text.startsWith('[')) {
+            const data = JSON.parse(text);
+            if (data.success && Array.isArray(data.products)) {
+              setProducts(data.products);
+              return;
+            }
           }
-        } else {
-          // Fallback to local data if API fails
-          setProducts(sampleProducts);
         }
+
+        // If we get here, API failed or returned invalid data
+        console.warn('API returned invalid data, falling back to local data');
+        throw new Error('Invalid API response');
+
       } catch (error) {
         console.error('Error fetching products:', error);
-        // Fallback to local data
-        setProducts(sampleProducts);
+
+        // Fallback to local data with filtering
+        let filtered = [...sampleProducts];
+
+        // Apply category filter
+        if (selectedCategory !== 'All') {
+          filtered = filtered.filter(product =>
+            product.category === selectedCategory ||
+            product.categoryId === selectedCategory.toLowerCase().replace(/\s+/g, '-')
+          );
+        }
+
+        // Apply search filter
+        if (searchTerm) {
+          const searchLower = searchTerm.toLowerCase();
+          filtered = filtered.filter(product =>
+            product.name.toLowerCase().includes(searchLower) ||
+            product.description.toLowerCase().includes(searchLower) ||
+            product.category.toLowerCase().includes(searchLower)
+          );
+        }
+
+        // Apply sorting
+        if (sortBy === 'price-low') {
+          filtered.sort((a, b) => a.lowestPrice - b.lowestPrice);
+        } else if (sortBy === 'price-high') {
+          filtered.sort((a, b) => b.lowestPrice - a.lowestPrice);
+        } else if (sortBy === 'name') {
+          filtered.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (sortBy === 'featured') {
+          filtered.sort((a, b) => {
+            if (a.featured && !b.featured) return -1;
+            if (!a.featured && b.featured) return 1;
+            return 0;
+          });
+        }
+
+        setProducts(filtered);
       } finally {
         setIsLoading(false);
       }
