@@ -36,5 +36,8 @@ export function createServer() {
   app.get("/api/products/category/:categoryId", handleGetProductsByCategory);
   app.get("/api/products/:productId", handleGetProduct);
 
+  // Email test route (for development)
+  app.get("/api/email-test", handleEmailTest);
+
   return app;
 }
