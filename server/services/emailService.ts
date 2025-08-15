@@ -40,9 +40,9 @@ class EmailService {
   private initializeTransporter() {
     try {
       // Get email configuration from environment variables
-      const gmailUser = "kishankachhadiya42@gmail.com";
-      const gmailPass = "93283Kish@n";
-      const ownerEmail = "kishankachhadiya42@gmail.com";
+      const gmailUser = process.env.GMAIL_USER;
+      const gmailPass = process.env.GMAIL_PASS;
+      const ownerEmail = process.env.OWNER_EMAIL;
 
       if (!gmailUser || !gmailPass || !ownerEmail) {
         console.warn('Email service not configured. Missing environment variables:');
