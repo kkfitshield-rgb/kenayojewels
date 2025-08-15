@@ -91,20 +91,6 @@ export default function ProductCard({ product, onInquiry, onQuickView }: Product
               {product.description}
             </p>
             
-            {/* Pricing */}
-            <div className="mb-4">
-              <p className="text-2xl font-bold text-primary">
-                ${product.lowestPrice.toLocaleString()}
-              </p>
-              <p className="text-sm text-muted-foreground">
-                As low as per piece
-              </p>
-              {product.priceRange.min !== product.priceRange.max && (
-                <p className="text-xs text-muted-foreground">
-                  Range: ${product.priceRange.min.toLocaleString()} - ${product.priceRange.max.toLocaleString()}
-                </p>
-              )}
-            </div>
             
             {product.minimumOrder && (
               <p className="text-xs text-muted-foreground mb-3">
