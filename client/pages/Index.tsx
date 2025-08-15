@@ -5,11 +5,10 @@ import SlideBackground from '@/components/SlideBackground';
 
 export default function Index() {
   const heroImages = [
-    'https://readdy.ai/api/search-image?query=luxury%20professional%20jewelry%20workshop%20with%20sophisticated%20diamond%20rings%20necklaces%20and%20elegant%20jewelry%20pieces%20displayed%20on%20clean%20modern%20surfaces%20with%20soft%20professional%20lighting%20and%20refined%20minimalist%20background%20perfect%20for%20B2B%20jewelry%20business&width=1920&height=600&seq=hero-kenayo-1&orientation=landscape',
-    'https://readdy.ai/api/search-image?query=elegant%20jewelry%20showroom%20with%20premium%20diamond%20engagement%20rings%20and%20luxury%20necklaces%20professionally%20displayed%20with%20sophisticated%20lighting%20and%20modern%20retail%20setting&width=1920&height=600&seq=hero-kenayo-2&orientation=landscape',
-    'https://readdy.ai/api/search-image?query=high%20end%20jewelry%20manufacturing%20facility%20with%20skilled%20craftsmen%20working%20on%20diamond%20jewelry%20pieces%20modern%20workshop%20environment%20with%20precision%20tools%20and%20quality%20control&width=1920&height=600&seq=hero-kenayo-3&orientation=landscape',
-    'https://readdy.ai/api/search-image?query=luxury%20jewelry%20collection%20featuring%20tennis%20bracelets%20diamond%20earrings%20and%20elegant%20rings%20arranged%20on%20premium%20display%20surfaces%20with%20professional%20studio%20lighting&width=1920&height=600&seq=hero-kenayo-4&orientation=landscape',
-    'https://readdy.ai/api/search-image?query=modern%20jewelry%20design%20studio%20with%20CAD%20workstations%20jewelry%20prototypes%20and%20custom%20design%20process%20showcasing%20innovation%20in%20jewelry%20manufacturing&width=1920&height=600&seq=hero-kenayo-5&orientation=landscape'
+    'https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2F6ff11851867745509fef7528f4363643?format=webp&width=800',
+    'https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2F2551d50fb85645a9a4d6f150775f8628?format=webp&width=800',
+    'https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2Fb05a327fbe534d37a625c38cc77b8902?format=webp&width=800',
+    'https://cdn.builder.io/api/v1/image/assets%2F5fb29789eefb45b0b7ff051660b2074e%2F3a110020445f451495ffaf0e7209a7b9?format=webp&width=800'
   ];
 
   return (
