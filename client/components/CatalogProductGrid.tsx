@@ -121,9 +121,6 @@ export default function CatalogProductGrid({ selectedCategory = 'All', products 
                   <h3 className="text-gray-900 font-semibold mb-2 min-h-12 overflow-hidden">
                     {product.name}
                   </h3>
-                  <p className="text-slate-800 text-lg font-bold leading-7 mb-3">
-                    As low as ${product.lowestPrice} per piece
-                  </p>
                   <div className="mb-4">
                     <div className="flex items-center">
                       <span className="text-gray-600 text-sm min-w-15">
